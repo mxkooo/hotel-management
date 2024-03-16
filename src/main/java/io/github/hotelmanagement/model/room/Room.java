@@ -20,11 +20,10 @@ public class Room {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NonNull
+    private double pricePerNight;
+    @NonNull
     private int bedAmount;
     private int maxPeopleInside;
-    @NonNull
-    private int pricePerNight;
-
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
     private List<Reservation> reservations = new ArrayList<>();
 }

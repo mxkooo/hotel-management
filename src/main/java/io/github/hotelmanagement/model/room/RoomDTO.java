@@ -10,8 +10,7 @@ public record RoomDTO(
         Long id,
         int bedAmount,
         int maxPeopleInside,
-        int pricePerNight,
-
+        double pricePerNight,
         List<ReservationDTO> reservationDTOS
 )
 {

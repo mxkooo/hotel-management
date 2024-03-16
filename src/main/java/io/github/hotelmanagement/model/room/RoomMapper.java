@@ -33,7 +33,7 @@ public class RoomMapper {
                 .build();
     }
 
-    public static RoomDTO mapToDTO(Room room) {
+    public static RoomDTO entityToDTO(Room room) {
 
         List<ReservationDTO> reservationDTOS = Optional.ofNullable(room.getReservations())
                 .orElse(Collections.emptyList())

@@ -17,7 +17,7 @@ public class ReservationMapper {
                 .map(UserMapper::mapToEntity)
                 .orElse(null);
 
-        Room room =Optional.ofNullable(dto.roomDTO())
+        Room room = Optional.ofNullable(dto.roomDTO())
                 .map(RoomMapper::mapToEntity)
                 .orElse(null);
 
@@ -38,7 +38,7 @@ public class ReservationMapper {
                 .orElse(null);
 
         RoomDTO roomDTO = Optional.ofNullable(reservation.getRoom())
-                .map(RoomMapper::mapToDTO)
+                .map(RoomMapper::entityToDTO)
                 .orElse(null);
 
         return ReservationDTO.builder()
