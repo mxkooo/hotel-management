@@ -1,5 +1,7 @@
 package io.github.hotelmanagement.model.reservation;
 
+import io.github.hotelmanagement.model.user.User;
+import io.github.hotelmanagement.model.user.UserDTO;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
@@ -9,6 +11,7 @@ public record ReservationDTO(
         Long id,
         LocalDateTime startReservation,
         LocalDateTime endReservation,
-        boolean isReserved
+        boolean isReserved,
+        UserDTO userDTO
 ) {
 }
