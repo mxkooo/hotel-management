@@ -16,8 +16,9 @@ public class Room {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @NonNull
+    private double pricePerNight;
+    @NonNull
     private int bedAmount;
     private int maxPeopleInside;
-    @NonNull
-    private int pricePerNight;
+
 }
