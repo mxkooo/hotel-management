@@ -6,12 +6,4 @@ import org.springframework.stereotype.Service;
 @Service
 public class RoomService {
 
-    public ResponseEntity<Room> createRoom(){
-
-
-
-        return ResponseEntity.ok(Room.builder().build());
-    }
-
-
 }
