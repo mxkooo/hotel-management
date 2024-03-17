@@ -1,16 +1,12 @@
 package io.github.hotelmanagement.model.room;
 
-import org.springframework.http.ResponseEntity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
 public class RoomService {
-
-    public ResponseEntity<Room> createRoom(){
-
-
-
-        return ResponseEntity.ok(Room.builder().build());
-    }
+    public static final Logger logger = LoggerFactory.getLogger(RoomService.class);
+    private RoomRepository roomRepository;
 
 }
