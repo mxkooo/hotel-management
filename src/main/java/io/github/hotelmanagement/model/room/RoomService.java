@@ -1,8 +1,7 @@
 package io.github.hotelmanagement.model.room;
 
-import org.springframework.stereotype.Service;
+import java.time.LocalDateTime;
 
-@Service
-public class RoomService {
-
+public interface RoomService {
+    RoomDTO getAvailableRoom(final LocalDateTime startDate, final int bedAmount);
 }
