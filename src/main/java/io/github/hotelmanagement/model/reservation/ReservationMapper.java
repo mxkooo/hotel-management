@@ -1,5 +1,8 @@
 package io.github.hotelmanagement.model.reservation;
 
+import io.github.hotelmanagement.model.room.Room;
+import io.github.hotelmanagement.model.room.RoomDTO;
+import io.github.hotelmanagement.model.room.RoomMapper;
 import io.github.hotelmanagement.model.user.User;
 import io.github.hotelmanagement.model.user.UserDTO;
 import io.github.hotelmanagement.model.user.UserMapper;
@@ -8,10 +11,14 @@ import java.util.Optional;
 
 public class ReservationMapper {
 
-    static Reservation mapToDTO(ReservationDTO dto) {
+    static Reservation mapToEntity(ReservationDTO dto) {
 
         User user = Optional.ofNullable(dto.userDTO())
                 .map(UserMapper::mapToEntity)
+                .orElse(null);
+
+        Room room =Optional.ofNullable(dto.roomDTO())
+                .map(RoomMapper::mapToEntity)
                 .orElse(null);
 
         return Reservation.builder()
@@ -20,6 +27,7 @@ public class ReservationMapper {
                 .endReservation(dto.endReservation())
                 .isReserved(dto.isReserved())
                 .user(user)
+                .room(room)
                 .build();
     }
 
@@ -29,12 +37,17 @@ public class ReservationMapper {
                 .map(UserMapper::mapToDTO)
                 .orElse(null);
 
+        RoomDTO roomDTO = Optional.ofNullable(reservation.getRoom())
+                .map(RoomMapper::mapToDTO)
+                .orElse(null);
+
         return ReservationDTO.builder()
                 .id(reservation.getId())
                 .startReservation(reservation.getStartReservation())
                 .endReservation(reservation.getEndReservation())
                 .isReserved(reservation.isReserved())
                 .userDTO(userDTO)
+                .roomDTO(roomDTO)
                 .build();
     }
 }

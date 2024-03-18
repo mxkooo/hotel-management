@@ -20,6 +20,7 @@ public class UserMapper {
                         reservation.getStartReservation(),
                         reservation.getEndReservation(),
                         reservation.isReserved(),
+                        null,
                         null))
                 .collect(Collectors.toList());
 
@@ -42,6 +43,7 @@ public class UserMapper {
                         dto.startReservation(),
                         dto.endReservation(),
                         dto.isReserved(),
+                        null,
                         null))
                 .collect(Collectors.toList());
 
