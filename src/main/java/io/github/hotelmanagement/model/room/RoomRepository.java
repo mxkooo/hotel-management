@@ -8,6 +8,9 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 import java.util.function.Function;
 
+import java.util.List;
+
+
 @Repository
 public interface RoomRepository extends JpaRepository<Room, Long> {
     @Override
@@ -19,6 +22,10 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     @Override
     Optional<Room> findById(Long id);
 
+
     @Override
     <S extends Room, R> R findBy(Example<S> example, Function<FluentQuery.FetchableFluentQuery<S>, R> queryFunction);
+
+    List<Room> findRoomsByBedAmount(int bedAmount);
+
 }
