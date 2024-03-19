@@ -29,7 +29,7 @@ class RoomServiceImpl implements RoomService {
         return RoomMapper.entityToDTO(roomRepository.save(room));
     }
 
-    public RoomDTO getAvailableRoom(final LocalDateTime startDate, final int bedAmount) {
+    public RoomDTO getAvailableRoom(final LocalDateTime startDate, final LocalDateTime endDate, final int bedAmount) {
 
         if (startDate == null) {
             throw new IllegalArgumentException("startDate cannot be null");
@@ -38,9 +38,11 @@ class RoomServiceImpl implements RoomService {
         try {
             Room availableRoom = roomRepository.findRoomsByBedAmount(bedAmount)
                     .stream()
-                    .filter(room -> isRoomAvailableOnDay(room, startDate))
+                    .filter(room -> isRoomAvailableOnStartDay(room, startDate))
+                    .filter(room -> isRoomAvailable(room, endDate))
                     .findFirst()
                     .orElseThrow(() -> new NoSuchElementException("No room available on the day: " + startDate));
+
             return RoomMapper.entityToDTO(availableRoom);
         } catch (Exception e) {
             logger.error("An error occurred while retrieving the available room", e);
@@ -48,7 +50,13 @@ class RoomServiceImpl implements RoomService {
         }
     }
 
-    private boolean isRoomAvailableOnDay(Room room, LocalDateTime startDate) {
+    private boolean isRoomAvailable(Room room, LocalDateTime endDate) {
+        return room.getReservations() == null || room.getReservations()
+                .stream()
+                .allMatch(reservation -> reservation.getEndReservation() == null || reservation.getEndReservation().isBefore(endDate));
+    }
+
+    private boolean isRoomAvailableOnStartDay(Room room, LocalDateTime startDate) {
         if (room.getReservations() == null) {
             return true;
         }
