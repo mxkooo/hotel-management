@@ -7,6 +7,8 @@ import java.util.List;
 
 @Repository
 public interface RoomRepository extends JpaRepository<Room, Integer> {
-
     List<Room> findRoomsByBedAmount(int bedAmount);
+
+    @Override
+    <S extends Room> S save(S entity);
 }
