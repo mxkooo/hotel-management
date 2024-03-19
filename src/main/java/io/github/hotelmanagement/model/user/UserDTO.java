@@ -2,6 +2,7 @@ package io.github.hotelmanagement.model.user;
 
 import io.github.hotelmanagement.model.reservation.ReservationDTO;
 import lombok.Builder;
+import lombok.Setter;
 
 import java.util.List;
 

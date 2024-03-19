@@ -20,7 +20,6 @@ class RoomServiceImpl implements RoomService {
     public RoomDTO createRoom(RoomDTO roomDTO, int beds) {
 
         int price = Price.countPrice(beds);
-
         Room room = new Room();
         room.setId(roomDTO.id());
         room.setBedAmount(roomDTO.bedAmount());
