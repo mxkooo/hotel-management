@@ -6,7 +6,6 @@ import io.github.hotelmanagement.model.reservation.ReservationDTO;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class RoomMapper {
 
@@ -34,7 +33,7 @@ public class RoomMapper {
                 .build();
     }
 
-    public static RoomDTO mapToDTO(Room room) {
+    public static RoomDTO entityToDTO(Room room) {
 
         List<ReservationDTO> reservationDTOS = Optional.ofNullable(room.getReservations())
                 .orElse(Collections.emptyList())
