@@ -1,5 +1,6 @@
 package io.github.hotelmanagement.model.room;
 
+import io.github.hotelmanagement.model.price.Price;
 import io.github.hotelmanagement.model.room.exception.GetAvailableRoomException;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -15,6 +16,16 @@ class RoomServiceImpl implements RoomService{
 
     private final RoomRepository roomRepository;
     private static final Logger logger = LoggerFactory.getLogger(RoomServiceImpl.class);
+
+    public RoomDTO createRoom(RoomDTO roomDTO, int beds) {
+        Room room = new Room();
+        int price = Price.countPrice(beds);
+        room.setId(roomDTO.id());
+        room.setBedAmount(roomDTO.bedAmount());
+        room.setMaxPeopleInside(roomDTO.maxPeopleInside());
+        room.setPricePerNight(price);
+        return RoomMapper.mapToDTO(roomRepository.save(room));
+    }
 
     public RoomDTO getAvailableRoom(final LocalDateTime startDate,final int bedAmount) {
 

@@ -1,12 +1,11 @@
 package io.github.hotelmanagement.model.price;
 
-import lombok.ToString;
 
-@ToString
 public class Price {
-    public int countPrice(int beds){
-        // 1 bed - 80PLN
-        int price = beds * 80;
+
+    public static final int BED_PRICE = 80;
+    public static int countPrice(int beds){
+        int price = beds * BED_PRICE;
         return price;
     }
 }
