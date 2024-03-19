@@ -24,6 +24,7 @@ class RoomServiceImpl implements RoomService{
         room.setBedAmount(roomDTO.bedAmount());
         room.setMaxPeopleInside(roomDTO.maxPeopleInside());
         room.setPricePerNight(price);
+
         return RoomMapper.mapToDTO(roomRepository.save(room));
     }
 
