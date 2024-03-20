@@ -7,14 +7,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-public class UserServiceImpl {
+public class UserServiceImpl implements UserService{
 
     private UserRepository userRepository;
-    private final static Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     public UserDTO createUser(UserDTO userDTO){
         User user = new User();
-        user.setId(userDTO.id());
         user.setName(userDTO.name());
         user.setLastName(userDTO.lastName());
 

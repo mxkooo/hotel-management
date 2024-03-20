@@ -21,7 +21,6 @@ class RoomServiceImpl implements RoomService {
 
         int price = Price.countPrice(beds);
         Room room = new Room();
-        room.setId(roomDTO.id());
         room.setBedAmount(roomDTO.bedAmount());
         room.setMaxPeopleInside(roomDTO.maxPeopleInside());
         room.setPricePerNight(price);
