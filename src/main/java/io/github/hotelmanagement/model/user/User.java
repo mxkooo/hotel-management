@@ -7,7 +7,7 @@ import lombok.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Table(name = "USER_QUEST")
+@Table(name = "USER")
 @Entity
 @Getter
 @Setter
