@@ -5,5 +5,5 @@ import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-public class ReservationServiceImpl {
+public class ReservationServiceImpl implements ReservationService {
 }
