@@ -16,8 +16,7 @@ public class UserController {
     private UserServiceImpl userService;
 
     @PostMapping(RoutesUser.POST)
-    public ResponseEntity<UserDTO> createUser(@RequestBody @Validated UserDTO userDTO){
-        UserDTO user = userService.createUser(userDTO);
-        return ResponseEntity.created(URI.create("/" + user.id())).body(user);
+    public UserDTO createUser(@RequestBody @Validated UserDTO userDTO){
+        return userService.createUser(userDTO);
     }
 }
