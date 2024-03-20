@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public class ReservationMapper {
 
-    static Reservation mapToEntity(ReservationDTO dto) {
+    public static Reservation mapToEntity(ReservationDTO dto) {
 
         User user = Optional.ofNullable(dto.userDTO())
                 .map(UserMapper::mapToEntity)
@@ -31,7 +31,7 @@ public class ReservationMapper {
                 .build();
     }
 
-    static ReservationDTO entityToDTO(Reservation reservation) {
+    public static ReservationDTO entityToDTO(Reservation reservation) {
 
         UserDTO userDTO = Optional.ofNullable(reservation.getUser())
                 .map(UserMapper::mapToDTO)
