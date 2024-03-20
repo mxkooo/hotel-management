@@ -10,6 +10,7 @@ import java.util.List;
 @Table(name = "USER_QUEST")
 @Entity
 @Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
