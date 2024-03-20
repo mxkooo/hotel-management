@@ -1,6 +1,7 @@
 package io.github.hotelmanagement.model.room;
 
 import io.github.hotelmanagement.model.price.Price;
+import io.github.hotelmanagement.model.reservation.Reservation;
 import io.github.hotelmanagement.model.room.exception.GetAvailableRoomException;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -8,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
@@ -27,18 +29,19 @@ class RoomServiceImpl implements RoomService {
         return RoomMapper.entityToDTO(roomRepository.save(room));
     }
 
-    public RoomDTO getAvailableRoom(final LocalDateTime startDate, final int bedAmount) {
+    public RoomDTO getAvailableRoom(final LocalDateTime startDate, final LocalDateTime endDate, final int bedAmount) {
 
-        if (startDate == null) {
-            throw new IllegalArgumentException("startDate cannot be null");
+        if (startDate == null || endDate == null) {
+            throw new IllegalArgumentException("date cannot be null");
         }
 
         try {
             Room availableRoom = roomRepository.findRoomsByBedAmount(bedAmount)
                     .stream()
-                    .filter(room -> isRoomAvailableOnDay(room, startDate))
+                    .filter(room -> isAvailable(room, startDate, endDate))
                     .findFirst()
-                    .orElseThrow(() -> new NoSuchElementException("No room available on the day: " + startDate));
+                    .orElseThrow(() -> new NoSuchElementException("No room available on the day: " + startDate + " to:" + endDate));
+
             return RoomMapper.entityToDTO(availableRoom);
         } catch (Exception e) {
             logger.error("An error occurred while retrieving the available room", e);
@@ -46,12 +49,24 @@ class RoomServiceImpl implements RoomService {
         }
     }
 
-    private boolean isRoomAvailableOnDay(Room room, LocalDateTime startDate) {
-        if (room.getReservations() == null) {
+    private boolean isAvailable(Room room, LocalDateTime startDate, LocalDateTime endDate) {
+
+        List<Reservation> reservations = room.getReservations();
+        if (reservations == null || reservations.isEmpty()) {
             return true;
         }
-        return room.getReservations()
+        final boolean isStartDayAvailable = reservations
                 .stream()
                 .noneMatch(r -> r.getStartReservation().equals(startDate));
+
+        if(!isStartDayAvailable){
+            return false;
+        }
+
+        return reservations
+                .stream()
+                .noneMatch(reservation ->
+                        reservation.getStartReservation().isAfter(startDate) &&
+                                reservation.getEndReservation().isBefore(endDate));
     }
 }
