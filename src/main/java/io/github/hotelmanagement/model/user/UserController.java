@@ -1,6 +1,7 @@
 package io.github.hotelmanagement.model.user;
 
 
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,6 +13,7 @@ import java.net.URI;
 
 @RestController
 @RequestMapping(RoutesUser.ROOT)
+@AllArgsConstructor
 public class UserController {
     private UserServiceImpl userService;
 

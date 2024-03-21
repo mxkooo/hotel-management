@@ -23,7 +23,7 @@
             <column name="BED_AMOUNT" type="INTEGER"/>
             <column name="MAX_PEOPLE_INSIDE" type="INT"/>
         </createTable>
-        <createTable tableName="USER">
+        <createTable tableName="USER_QUEST">
             <column name="ID" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>

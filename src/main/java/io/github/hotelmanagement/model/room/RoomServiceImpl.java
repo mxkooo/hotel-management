@@ -19,9 +19,9 @@ class RoomServiceImpl implements RoomService {
     private final RoomRepository roomRepository;
     private static final Logger logger = LoggerFactory.getLogger(RoomServiceImpl.class);
 
-    public RoomDTO createRoom(RoomDTO roomDTO, int beds) {
+    public RoomDTO createRoom(RoomDTO roomDTO) {
 
-        int price = Price.countPrice(beds);
+        int price = Price.countPrice(roomDTO.bedAmount());
         Room room = new Room();
         room.setBedAmount(roomDTO.bedAmount());
         room.setMaxPeopleInside(roomDTO.maxPeopleInside());
