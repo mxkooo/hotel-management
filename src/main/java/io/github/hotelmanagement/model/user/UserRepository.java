@@ -7,5 +7,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     boolean existsById(Long aLong);
 
     @Override
+    <S extends User> S save(S entity);
+
+    @Override
     <S extends User> boolean exists(Example<S> example);
 }
