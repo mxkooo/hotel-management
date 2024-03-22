@@ -1,9 +1,6 @@
 package io.github.hotelmanagement.model.reservation;
 
-import io.github.hotelmanagement.model.room.Room;
-import io.github.hotelmanagement.model.room.RoomDTO;
-import io.github.hotelmanagement.model.room.RoomRepository;
-import io.github.hotelmanagement.model.room.RoomService;
+import io.github.hotelmanagement.model.room.*;
 import io.github.hotelmanagement.model.user.UserDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +18,7 @@ public class ReservationServiceImpl implements ReservationService {
     private final RoomService roomService;
     @Autowired
     private final RoomRepository roomRepository;
+    private final RoomMapper roomMapper;
     @Override
     public List<ReservationDTO> getAllUserReservation(Long userId) {
         return reservationRepository.getReservationByUserId(userId)
@@ -29,17 +27,20 @@ public class ReservationServiceImpl implements ReservationService {
                 .toList();
     }
 
-    public boolean createReservation(LocalDateTime startReservation, LocalDateTime endReservation, int beds, boolean isReserved) {
-        Room room = roomService.getAvailableRoom(startReservation, endReservation, beds);
+    public boolean createReservation(LocalDateTime startReservation, LocalDateTime endReservation, int beds, Long roomId, boolean isReserved) throws Exception{
+        RoomDTO room = roomService.getAvailableRoom(startReservation, endReservation, beds);
         if (room != null) {
 
             Reservation reservation = new Reservation();
             reservation.setStartReservation(startReservation);
             reservation.setEndReservation(endReservation);
-            reservation.setRoom(room);
+            reservation.setRoom(roomMapper.mapToEntity(room));
 
-            room.setReserved(true);
-            roomService.updateRoom(room);
+            room.builder()
+                    .isReserved(true)
+                    .build();
+
+            roomService.updateRoom(roomId, roomMapper.mapToEntity(room));
 
             reservationRepository.save(reservation);
             return true;

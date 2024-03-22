@@ -8,7 +8,6 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 
 @Builder
-@Setter
 public record ReservationDTO(
         Long id,
         LocalDateTime startReservation,

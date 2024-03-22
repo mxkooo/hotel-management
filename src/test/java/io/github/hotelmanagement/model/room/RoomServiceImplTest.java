@@ -18,11 +18,12 @@ class RoomServiceImplTest {
 
     private RoomRepository roomRepository;
     private RoomService roomService;
+    private RoomMapper roomMapper;
 
     @BeforeEach
     void prepare() {
         roomRepository = mock(RoomRepository.class);
-        roomService = new RoomServiceImpl(roomRepository);
+        roomService = new RoomServiceImpl(roomRepository, roomMapper);
     }
 
     private final static LocalDateTime START_RESERVATION = LocalDateTime.of(2024, 10, 10, 0, 0);
