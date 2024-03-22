@@ -1,9 +1,9 @@
 package io.github.hotelmanagement.model.reservation;
 
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
-
+import java.util.List;
 
 public interface ReservationService {
+
+    List<ReservationDTO> getAllUserReservation(Long userId);
 
 }
