@@ -50,4 +50,19 @@ public class ReservationMapper {
                 .roomDTO(roomDTO)
                 .build();
     }
+
+    public static ReservationDTO entityToResponse(Reservation reservation){
+
+        RoomDTO roomDTO = Optional.ofNullable(reservation.getRoom())
+                .map(RoomMapper::entityToDTO)
+                .orElse(null);
+
+        return ReservationDTO.builder()
+                .id(reservation.getId())
+                .startReservation(reservation.getStartReservation())
+                .endReservation(reservation.getEndReservation())
+                .isReserved(reservation.isReserved())
+                .roomDTO(roomDTO)
+                .build();
+    }
 }
