@@ -1,16 +1,17 @@
 package io.github.hotelmanagement.model.room;
 
-import io.github.hotelmanagement.model.price.Price;
-import io.github.hotelmanagement.model.reservation.Reservation;
-import io.github.hotelmanagement.model.room.exception.GetAvailableRoomException;
-import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.crossstore.ChangeSetPersister;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import io.github.hotelmanagement.model.price.Price;
+import org.springframework.data.crossstore.ChangeSetPersister;
+import io.github.hotelmanagement.model.reservation.Reservation;
+import io.github.hotelmanagement.model.exception.NotFoundException;
+import io.github.hotelmanagement.model.room.exception.GetAvailableRoomException;
 
-import java.time.LocalDateTime;
 import java.util.List;
+import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
 
 @Service
@@ -18,13 +19,7 @@ import java.util.NoSuchElementException;
 class RoomServiceImpl implements RoomService {
 
     private final RoomRepository roomRepository;
-    private final RoomMapper roomMapper;
     private static final Logger logger = LoggerFactory.getLogger(RoomServiceImpl.class);
-
-
-    public static class Errors{
-        static final String NOT_FOUND_ERROR = "Room with id: %s can't be found";
-    }
 
     public RoomDTO createRoom(RoomDTO roomDTO) {
 
@@ -77,10 +72,6 @@ class RoomServiceImpl implements RoomService {
                                 reservation.getEndReservation().isBefore(endDate));
     }
     public RoomDTO updateRoom(Long id, Room toUpdate) throws Exception {
-        if (!roomRepository.existsById(id)) {
-            throw new Exception();
-        }
-
         Room room = roomRepository.findById(id)
                 .orElseThrow(() -> new ChangeSetPersister.NotFoundException());
 
@@ -90,6 +81,6 @@ class RoomServiceImpl implements RoomService {
         room.setBedAmount(toUpdate.getBedAmount());
         room.setPricePerNight(toUpdate.getPricePerNight());
         room.setMaxPeopleInside(toUpdate.getMaxPeopleInside());
-        return roomMapper.entityToDTO(roomRepository.save(room));
+        return RoomMapper.entityToDTO(roomRepository.save(room));
     }
 }
