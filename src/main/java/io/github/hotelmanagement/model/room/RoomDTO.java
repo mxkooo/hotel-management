@@ -7,7 +7,6 @@ import lombok.Setter;
 import java.util.List;
 
 @Builder
-@Setter
 public record RoomDTO(
         Long id,
         double pricePerNight,

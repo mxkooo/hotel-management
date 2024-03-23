@@ -6,10 +6,6 @@ import java.util.List;
 
 public interface RoomRepository extends JpaRepository<Room, Long> {
     List<Room> findRoomsByBedAmount(int bedAmount);
-
-    @Override
-    boolean existsById(Long id);
-
     @Override
     <S extends Room> S save(S entity);
 }

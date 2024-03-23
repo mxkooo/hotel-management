@@ -1,5 +1,6 @@
 package io.github.hotelmanagement.model.reservation;
 
+import io.github.hotelmanagement.model.exception.NotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import io.github.hotelmanagement.model.room.*;
@@ -36,7 +37,7 @@ public class ReservationServiceImpl implements ReservationService {
             request.endReservation(),
             request.bedAmount());
 
-        User user = userRepository.findById(userId).orElseThrow();
+        User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("user not found"));
 
         Reservation reservation = Reservation.builder()
                 .user(user)
@@ -49,8 +50,5 @@ public class ReservationServiceImpl implements ReservationService {
         user.getReservations().add(reservation);
 
         return ReservationMapper.entityToDTO(reservationRepository.save(reservation));
-
     }
-
-
 }
