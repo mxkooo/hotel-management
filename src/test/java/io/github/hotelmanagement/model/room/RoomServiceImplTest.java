@@ -38,10 +38,10 @@ class RoomServiceImplTest {
         when(roomRepository.findRoomsByBedAmount(BED_AMOUNT)).thenReturn(List.of(room));
 
         // when
-        RoomDTO roomDTO = roomService.getAvailableRoom(START_RESERVATION, END_RESERVATION, BED_AMOUNT);
+        Room room2 = roomService.getAvailableRoom(START_RESERVATION, END_RESERVATION, BED_AMOUNT);
 
         // then
-        assertNotNull(roomDTO);
+        assertNotNull(room2);
     }
 
     @Test
@@ -52,10 +52,10 @@ class RoomServiceImplTest {
 
         when(roomRepository.findRoomsByBedAmount(BED_AMOUNT)).thenReturn(List.of(room));
         // when
-        RoomDTO roomDTO = roomService.getAvailableRoom(START_RESERVATION, END_RESERVATION, BED_AMOUNT);
+        Room room2 = roomService.getAvailableRoom(START_RESERVATION, END_RESERVATION, BED_AMOUNT);
 
         // then
-        assertNotNull(roomDTO);
+        assertNotNull(room2);
     }
 
     @Test
@@ -77,10 +77,10 @@ class RoomServiceImplTest {
         when(roomRepository.findRoomsByBedAmount(BED_AMOUNT)).thenReturn(List.of(room));
 
         // when
-        RoomDTO roomDTO = roomService.getAvailableRoom(dateStartReservationByUser, dateEndReservationByUser, BED_AMOUNT);
+        Room room2 = roomService.getAvailableRoom(dateStartReservationByUser, dateEndReservationByUser, BED_AMOUNT);
 
         // then
-        assertNotNull(roomDTO);
+        assertNotNull(room2);
     }
 
     @Test

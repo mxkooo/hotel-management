@@ -1,5 +1,6 @@
 package io.github.hotelmanagement.model.user;
 
+import io.github.hotelmanagement.model.exception.NotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,5 +15,8 @@ public class UserServiceImpl implements UserService{
         user.setName(userDTO.name());
         user.setLastName(userDTO.lastName());
         return UserMapper.mapToDTO(userRepository.save(user));
+    }
+    public User getUser(Long userId){
+        return userRepository.findById(userId).orElseThrow(() -> new NotFoundException("user not found"));
     }
 }

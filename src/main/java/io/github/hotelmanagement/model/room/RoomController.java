@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(RoutesRoom.ROOT)
 public class RoomController {
 
-    RoomService roomService;
+    private RoomService roomService;
 
     @PostMapping(RoutesRoom.POST)
     RoomDTO crateRoom(@RequestBody RoomDTO roomDTO){

@@ -31,9 +31,9 @@ class RoomServiceImpl implements RoomService {
         return RoomMapper.entityToDTO(roomRepository.save(room));
     }
 
-    public RoomDTO getAvailableRoom(final LocalDateTime startDate, final LocalDateTime endDate, final int bedAmount) {
+    public Room getAvailableRoom(final LocalDateTime startDate, final LocalDateTime endDate, final int bedAmount) {
 
-        if (startDate == null || endDate == null) {
+        if (startDate == null && endDate == null) {
             throw new IllegalArgumentException("date cannot be null");
         }
 
@@ -44,7 +44,7 @@ class RoomServiceImpl implements RoomService {
                     .findFirst()
                     .orElseThrow(() -> new NoSuchElementException("No room available on the day: " + startDate + " to:" + endDate));
 
-            return RoomMapper.entityToDTO(availableRoom);
+            return availableRoom;
         } catch (Exception e) {
             logger.error("An error occurred while retrieving the available room", e);
             throw new GetAvailableRoomException(e);

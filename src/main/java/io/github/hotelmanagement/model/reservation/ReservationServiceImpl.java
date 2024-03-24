@@ -18,10 +18,12 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Autowired
     private final ReservationRepository reservationRepository;
+    @Autowired
     private final RoomService roomService;
+    @Autowired
     private final UserRepository userRepository;
     @Autowired
-    private final RoomRepository roomRepository;
+    private final UserService userService;
     @Override
     public List<ReservationDTO> getAllUserReservation(Long userId) {
         return reservationRepository.getReservationByUserId(userId)
@@ -32,21 +34,21 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Transactional
     public ReservationDTO createReservation(ReservationRequest request, Long userId){
-        RoomDTO room = roomService.getAvailableRoom(
+        Room room = roomService.getAvailableRoom(
             request.startReservation(),
             request.endReservation(),
             request.bedAmount());
 
-        User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("user not found"));
+        User user = userService.getUser(userId);
 
         Reservation reservation = Reservation.builder()
                 .user(user)
-                .room(RoomMapper.mapToEntity(room))
+                .room(room)
                 .startReservation(request.startReservation())
                 .endReservation(request.endReservation())
                 .build();
 
-        RoomMapper.mapToEntity(room).getReservations().add(reservation);
+        room.getReservations().add(reservation);
         user.getReservations().add(reservation);
 
         return ReservationMapper.entityToDTO(reservationRepository.save(reservation));
