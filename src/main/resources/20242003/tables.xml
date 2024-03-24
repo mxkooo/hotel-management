@@ -20,6 +20,7 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="PRICE_PER_NIGHT" type="INTEGER"/>
+            <column name="IS_RESERVED" type="BOOLEAN"/>
             <column name="BED_AMOUNT" type="INTEGER"/>
             <column name="MAX_PEOPLE_INSIDE" type="INT"/>
         </createTable>

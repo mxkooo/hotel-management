@@ -17,7 +17,7 @@ public class ReservationController {
         return reservationService.getAllUserReservation(userId);
     }
 
-    @PostMapping(RoutesReservation.POST)
+    @PostMapping(RoutesReservation.POST + "/{userId}")
     public ReservationDTO createReservation(@RequestBody ReservationRequest request, @PathVariable Long userId){
         return reservationService.createReservation(request,userId);
     }

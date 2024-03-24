@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/room")
+@RequestMapping(RoutesRoom.ROOT)
 public class RoomController {
 
     RoomService roomService;
 
-    @PostMapping
+    @PostMapping(RoutesRoom.POST)
     RoomDTO crateRoom(@RequestBody RoomDTO roomDTO){
        return roomService.createRoom(roomDTO);
     }
