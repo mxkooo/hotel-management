@@ -42,7 +42,7 @@ class RoomServiceImpl implements RoomService {
                     .stream()
                     .filter(room -> isAvailable(room, startDate, endDate))
                     .findFirst()
-                    .orElseThrow(() -> new NoSuchElementException("No room available on the day: " + startDate + " to:" + endDate));
+                    .orElseThrow(() -> new NoSuchElementException("No room available on the day: " + startDate + " to: " + endDate));
 
             return availableRoom;
         } catch (Exception e) {
