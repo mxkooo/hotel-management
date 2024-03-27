@@ -24,6 +24,8 @@ public class Room {
     @NonNull
     private int bedAmount;
     private int maxPeopleInside;
+    @NonNull
+    boolean isReserved;
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
     private List<Reservation> reservations = new ArrayList<>();
 }

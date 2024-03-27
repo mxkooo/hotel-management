@@ -1,15 +1,17 @@
 package io.github.hotelmanagement.model.room;
 
-import io.github.hotelmanagement.model.price.Price;
-import io.github.hotelmanagement.model.reservation.Reservation;
-import io.github.hotelmanagement.model.room.exception.GetAvailableRoomException;
-import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import io.github.hotelmanagement.model.price.Price;
+import org.springframework.data.crossstore.ChangeSetPersister;
+import io.github.hotelmanagement.model.reservation.Reservation;
+import io.github.hotelmanagement.model.exception.NotFoundException;
+import io.github.hotelmanagement.model.room.exception.GetAvailableRoomException;
 
-import java.time.LocalDateTime;
 import java.util.List;
+import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
 
 @Service
@@ -29,9 +31,9 @@ class RoomServiceImpl implements RoomService {
         return RoomMapper.entityToDTO(roomRepository.save(room));
     }
 
-    public RoomDTO getAvailableRoom(final LocalDateTime startDate, final LocalDateTime endDate, final int bedAmount) {
+    public Room getAvailableRoom(final LocalDateTime startDate, final LocalDateTime endDate, final int bedAmount) {
 
-        if (startDate == null || endDate == null) {
+        if (startDate == null && endDate == null) {
             throw new IllegalArgumentException("date cannot be null");
         }
 
@@ -40,9 +42,9 @@ class RoomServiceImpl implements RoomService {
                     .stream()
                     .filter(room -> isAvailable(room, startDate, endDate))
                     .findFirst()
-                    .orElseThrow(() -> new NoSuchElementException("No room available on the day: " + startDate + " to:" + endDate));
+                    .orElseThrow(() -> new NoSuchElementException("No room available on the day: " + startDate + " to: " + endDate));
 
-            return RoomMapper.entityToDTO(availableRoom);
+            return availableRoom;
         } catch (Exception e) {
             logger.error("An error occurred while retrieving the available room", e);
             throw new GetAvailableRoomException(e);
@@ -68,5 +70,17 @@ class RoomServiceImpl implements RoomService {
                 .noneMatch(reservation ->
                         reservation.getStartReservation().isAfter(startDate) &&
                                 reservation.getEndReservation().isBefore(endDate));
+    }
+    public RoomDTO updateRoom(Long id, Room toUpdate) throws Exception {
+        Room room = roomRepository.findById(id)
+                .orElseThrow(() -> new ChangeSetPersister.NotFoundException());
+
+        room.setId(toUpdate.getId());
+        room.setReserved(toUpdate.isReserved());
+        room.setReservations(toUpdate.getReservations());
+        room.setBedAmount(toUpdate.getBedAmount());
+        room.setPricePerNight(toUpdate.getPricePerNight());
+        room.setMaxPeopleInside(toUpdate.getMaxPeopleInside());
+        return RoomMapper.entityToDTO(roomRepository.save(room));
     }
 }

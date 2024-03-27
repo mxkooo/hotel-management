@@ -29,7 +29,7 @@ class ReservationMapperTest {
 
     private static Stream<Reservation> reservationWithUserDTOProvider() {
         User user = new User(1L, "Jan", "Paweł", Collections.emptyList());
-        Room room = new Room(1L,2,2,90,Collections.emptyList());
+        Room room = new Room(1L,2,2,90,true,Collections.emptyList());
 
         return Stream.of(
                 new Reservation(1L, LocalDateTime.now(), LocalDateTime.now().plusHours(1), true, room,user),
