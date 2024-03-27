@@ -8,4 +8,10 @@ import java.util.List;
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
 
     List<Reservation> getReservationByUserId(Long userId);
+
+    @Override
+    void deleteById(Long aLong);
+
+    @Override
+    boolean existsById(Long aLong);
 }

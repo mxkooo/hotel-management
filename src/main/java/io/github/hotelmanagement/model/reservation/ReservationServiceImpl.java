@@ -53,4 +53,13 @@ public class ReservationServiceImpl implements ReservationService {
 
         return ReservationMapper.entityToDTO(reservationRepository.save(reservation));
     }
+
+    public void cancelReservation(Long reservationId){
+        if (!reservationRepository.existsById(reservationId)){
+            throw new NotFoundException("Reservation with given id " + reservationId + " does not exist");
+        }
+
+        Reservation reservation = Reservation.builder().build();
+        reservationRepository.deleteById(reservationId);
+    }
 }
