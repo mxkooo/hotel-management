@@ -8,9 +8,7 @@ import io.github.hotelmanagement.model.user.*;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.beans.Transient;
 import java.util.List;
-import java.time.LocalDateTime;
 
 @Service
 @AllArgsConstructor
@@ -20,8 +18,6 @@ public class ReservationServiceImpl implements ReservationService {
     private final ReservationRepository reservationRepository;
     @Autowired
     private final RoomService roomService;
-    @Autowired
-    private final UserRepository userRepository;
     @Autowired
     private final UserService userService;
     @Override
