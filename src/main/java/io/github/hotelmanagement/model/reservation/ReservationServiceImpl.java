@@ -48,6 +48,7 @@ public class ReservationServiceImpl implements ReservationService {
                 .endReservation(request.endReservation())
                 .build();
 
+        room.setReserved(true);
         room.getReservations().add(reservation);
         user.getReservations().add(reservation);
 
