@@ -18,9 +18,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class ReservationServiceImplTest {
-    private ReservationRequest request;
-    private ReservationRepository reservationRepository = mock(ReservationRepository.class);
-    private ReservationService reservationService = mock(ReservationService.class);
+    private ReservationRepository reservationRepository;
+    private ReservationService reservationService;
     private RoomService roomService;
     private UserService userService;
     private final static LocalDateTime START_RESERVATION = LocalDateTime.of(2024, 10, 10, 0, 0);
@@ -55,6 +54,5 @@ class ReservationServiceImplTest {
         assertNotNull(result.roomDTO());
         assertNotNull(result.userDTO());
         assertNotNull(result);
-
     }
 }
