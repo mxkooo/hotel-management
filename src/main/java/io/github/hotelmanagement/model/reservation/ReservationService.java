@@ -6,5 +6,6 @@ public interface ReservationService {
 
     List<ReservationDTO> getAllUserReservation(Long userId);
     public ReservationDTO createReservation(ReservationRequest request, Long userId);
+    void cancelReservation(Long id);
 
 }

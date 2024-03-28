@@ -22,4 +22,8 @@ public class ReservationController {
         return reservationService.createReservation(request,userId);
     }
 
+    @DeleteMapping(RoutesReservation.CANCEL + "/{id}")
+    public void cancelReservation(@PathVariable Long id){
+        reservationService.cancelReservation(id);
+    }
 }

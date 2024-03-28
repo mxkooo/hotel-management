@@ -5,9 +5,12 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import io.github.hotelmanagement.model.room.*;
 import io.github.hotelmanagement.model.user.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -55,6 +58,7 @@ public class ReservationServiceImpl implements ReservationService {
         if (!reservationRepository.existsById(reservationId)){
             throw new NotFoundException("Reservation with given id " + reservationId + " does not exist");
         }
+
 
         reservationRepository.deleteById(reservationId);
     }
