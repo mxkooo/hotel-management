@@ -13,5 +13,8 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     void deleteById(Long aLong);
 
     @Override
+    <S extends Reservation> S save(S entity);
+
+    @Override
     boolean existsById(Long aLong);
 }

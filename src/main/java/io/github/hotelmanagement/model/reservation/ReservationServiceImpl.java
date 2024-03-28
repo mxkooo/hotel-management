@@ -5,6 +5,7 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import io.github.hotelmanagement.model.room.*;
 import io.github.hotelmanagement.model.user.*;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -29,7 +30,7 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Transactional
-    public ReservationDTO createReservation(ReservationRequest request, Long userId){
+    public ReservationDTO createReservation(ReservationRequest request, @NonNull Long userId){
         Room room = roomService.getAvailableRoom(
             request.startReservation(),
             request.endReservation(),
@@ -55,7 +56,6 @@ public class ReservationServiceImpl implements ReservationService {
             throw new NotFoundException("Reservation with given id " + reservationId + " does not exist");
         }
 
-        Reservation reservation = Reservation.builder().build();
         reservationRepository.deleteById(reservationId);
     }
 }
