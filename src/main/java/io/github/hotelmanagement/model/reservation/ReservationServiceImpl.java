@@ -5,24 +5,17 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import io.github.hotelmanagement.model.room.*;
 import io.github.hotelmanagement.model.user.*;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import java.beans.Transient;
 import java.util.List;
-import java.time.LocalDateTime;
 
 @Service
 @AllArgsConstructor
 public class ReservationServiceImpl implements ReservationService {
 
-    @Autowired
     private final ReservationRepository reservationRepository;
-    @Autowired
     private final RoomService roomService;
-    @Autowired
-    private final UserRepository userRepository;
-    @Autowired
     private final UserService userService;
     @Override
     public List<ReservationDTO> getAllUserReservation(Long userId) {
@@ -33,7 +26,7 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Transactional
-    public ReservationDTO createReservation(ReservationRequest request, Long userId){
+    public ReservationDTO createReservation(ReservationRequest request, @NonNull Long userId){
         Room room = roomService.getAvailableRoom(
             request.startReservation(),
             request.endReservation(),
@@ -52,5 +45,12 @@ public class ReservationServiceImpl implements ReservationService {
         user.getReservations().add(reservation);
 
         return ReservationMapper.entityToDTO(reservationRepository.save(reservation));
+    }
+
+    public void cancelReservation(Long reservationId){
+        if (!reservationRepository.existsById(reservationId)){
+            throw new NotFoundException("Reservation with given id " + reservationId + " does not exist");
+        }
+        reservationRepository.deleteById(reservationId);
     }
 }
