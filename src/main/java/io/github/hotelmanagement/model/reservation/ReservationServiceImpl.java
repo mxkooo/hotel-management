@@ -1,6 +1,7 @@
 package io.github.hotelmanagement.model.reservation;
 
 import io.github.hotelmanagement.model.exception.NotFoundException;
+import io.github.hotelmanagement.model.reservation.validator.CancelReservationValidator;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import io.github.hotelmanagement.model.room.*;
@@ -15,6 +16,7 @@ import java.util.List;
 public class ReservationServiceImpl implements ReservationService {
 
     private final ReservationRepository reservationRepository;
+    private final CancelReservationValidator cancelReservationValidator;
     private final RoomService roomService;
     private final UserService userService;
     @Override
@@ -48,9 +50,11 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     public void cancelReservation(Long reservationId){
-        if (!reservationRepository.existsById(reservationId)){
-            throw new NotFoundException("Reservation with given id " + reservationId + " does not exist");
-        }
+        Reservation reservation = reservationRepository.findById(reservationId)
+                .orElseThrow(() -> new NotFoundException("Reservation with given id " + reservationId + " does not exist"));
+
+        cancelReservationValidator.validate(reservation);
+
         reservationRepository.deleteById(reservationId);
     }
 }
