@@ -26,6 +26,9 @@ class ReservationServiceImplTest {
     private final static LocalDateTime START_RESERVATION = LocalDateTime.of(2024, 10, 10, 0, 0);
     private final static LocalDateTime END_RESERVATION = LocalDateTime.of(2024, 10, 15, 0, 0);
     private final static int BED_AMOUNT = 2;
+    static ReservationRequest reservationRequest = new ReservationRequest(START_RESERVATION, END_RESERVATION, BED_AMOUNT);
+    static Room room = new Room(1L, 260, BED_AMOUNT, 4, false, new ArrayList<>());
+    static User user = new User(1L, "Jan", "Nowak", new ArrayList<>());
     @BeforeEach
     void prepare(){
         cancelReservationValidator = mock(CancelReservationValidator.class);
@@ -62,24 +65,20 @@ class ReservationServiceImplTest {
 
     @Test
     void getAllUserReservation(){
-        Room room = new Room(1L, 260, BED_AMOUNT, 4, false, new ArrayList<>());
-        User user = new User(1L, "Jan", "Nowak", new ArrayList<>());
         Reservation reservation1 = new Reservation(1L, START_RESERVATION, END_RESERVATION, false, room, user);
         Reservation reservation2 = new Reservation(2L, LocalDateTime.of(2024, 1, 12, 0, 0), LocalDateTime.of(2024, 1, 17, 0, 0), false, room, user);
-
         //given
         List<Reservation> userReservations = new ArrayList<>();
         userReservations.add(reservation1);
         userReservations.add(reservation2);
         //when
         when(reservationRepository.getReservationByUserId(1L)).thenReturn(userReservations);
-
         List<ReservationDTO> result = reservationService.getAllUserReservation(1L);
-
         //then
         assertNotNull(result);
-
-
-
+        assertEquals(userReservations.size(), result.size());
+        for (int i = 0; i < userReservations.size(); i++) {
+            assertEquals(userReservations.get(i).getId(), result.get(i).id());
+        }
     }
 }
