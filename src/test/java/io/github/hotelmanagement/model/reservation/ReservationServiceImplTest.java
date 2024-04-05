@@ -78,7 +78,11 @@ class ReservationServiceImplTest {
 
         //then
         assertNotNull(result);
+        assertEquals(userReservations.size(), result.size());
 
+        for (int i = 0; i < userReservations.size(); i++) {
+            assertEquals(userReservations.get(i).getId(), result.get(i).id());
+        }
 
 
     }
