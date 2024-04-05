@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -57,5 +58,28 @@ class ReservationServiceImplTest {
         assertNotNull(result.roomDTO());
         assertNotNull(result.userDTO());
         assertNotNull(result);
+    }
+
+    @Test
+    void getAllUserReservation(){
+        Room room = new Room(1L, 260, BED_AMOUNT, 4, false, new ArrayList<>());
+        User user = new User(1L, "Jan", "Nowak", new ArrayList<>());
+        Reservation reservation1 = new Reservation(1L, START_RESERVATION, END_RESERVATION, false, room, user);
+        Reservation reservation2 = new Reservation(2L, LocalDateTime.of(2024, 1, 12, 0, 0), LocalDateTime.of(2024, 1, 17, 0, 0), false, room, user);
+
+        //given
+        List<Reservation> userReservations = new ArrayList<>();
+        userReservations.add(reservation1);
+        userReservations.add(reservation2);
+        //when
+        when(reservationRepository.getReservationByUserId(1L)).thenReturn(userReservations);
+
+        List<ReservationDTO> result = reservationService.getAllUserReservation(1L);
+
+        //then
+        assertNotNull(result);
+
+
+
     }
 }
