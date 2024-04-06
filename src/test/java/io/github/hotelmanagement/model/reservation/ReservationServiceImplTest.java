@@ -79,7 +79,5 @@ class ReservationServiceImplTest {
         //then
         assertNotNull(result);
 
-
-
     }
 }
