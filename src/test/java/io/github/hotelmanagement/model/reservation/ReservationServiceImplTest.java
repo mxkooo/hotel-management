@@ -1,21 +1,18 @@
 package io.github.hotelmanagement.model.reservation;
 
 
-import io.github.hotelmanagement.model.date.DateTimeProvider;
 import io.github.hotelmanagement.model.reservation.validator.CancelReservationValidator;
-import io.github.hotelmanagement.model.reservation.validator.CancelReservationValidatorImpl;
 import io.github.hotelmanagement.model.room.Room;
 import io.github.hotelmanagement.model.room.RoomService;
 import io.github.hotelmanagement.model.user.User;
 import io.github.hotelmanagement.model.user.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import java.util.Optional;
 import org.mockito.ArgumentCaptor;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -33,13 +30,14 @@ class ReservationServiceImplTest {
     static ReservationRequest reservationRequest = new ReservationRequest(START_RESERVATION, END_RESERVATION, BED_AMOUNT);
     static Room room = new Room(1L, 260, BED_AMOUNT, 4, false, new ArrayList<>());
     static User user = new User(1L, "Jan", "Nowak", new ArrayList<>());
+
     @BeforeEach
-    void prepare(){
+    void prepare() {
         cancelReservationValidator = mock(CancelReservationValidator.class);
         roomService = mock(RoomService.class);
         userService = mock(UserService.class);
         reservationRepository = mock(ReservationRepository.class);
-        reservationService = new ReservationServiceImpl(reservationRepository, cancelReservationValidator,roomService, userService);
+        reservationService = new ReservationServiceImpl(reservationRepository, cancelReservationValidator, roomService, userService);
     }
 
     @Test
@@ -62,7 +60,7 @@ class ReservationServiceImplTest {
     }
 
     @Test
-    void getAllUserReservation(){
+    void getAllUserReservation() {
         Reservation reservation1 = new Reservation(1L, START_RESERVATION, END_RESERVATION, false, room, user);
         Reservation reservation2 = new Reservation(2L, LocalDateTime.of(2024, 1, 12, 0, 0), LocalDateTime.of(2024, 1, 17, 0, 0), false, room, user);
         //given
@@ -75,6 +73,7 @@ class ReservationServiceImplTest {
 
         //then
         assertNotNull(result);
+        assertEquals(userReservations.size(), result.size());
 
         for (int i = 0; i < userReservations.size(); i++) {
             assertEquals(userReservations.get(i).getId(), result.get(i).id());
@@ -82,18 +81,20 @@ class ReservationServiceImplTest {
     }
 
     @Test
-    void cancelReservation(){
-        //given
-        Reservation reservation1 = new Reservation(1L, START_RESERVATION, END_RESERVATION, false, room, user);
+void cancelReservation() {
+        Reservation reservation = new Reservation(1L, START_RESERVATION, END_RESERVATION, false, room, user);
 
-        //when
-        when(reservationRepository.findById(1L)).thenReturn(Optional.of(reservation1));
+        when(reservationRepository.findById(1L)).thenReturn(Optional.of(reservation));
+
         reservationService.cancelReservation(1L);
+
         verify(reservationRepository, times(1)).findById(1L);
-        verify(cancelReservationValidator, times(1)).validate(reservation1);
+
+        verify(cancelReservationValidator, times(1)).validate(reservation);
 
         ArgumentCaptor<Long> argumentCaptor = ArgumentCaptor.forClass(Long.class);
-        verify(reservationRepository, times(1)).deleteById(argumentCaptor.capture());
+        verify(reservationRepository, times(1)).
+                deleteById(argumentCaptor.capture());
         Long capturedId = argumentCaptor.getValue();
         assertEquals(1L, capturedId);
     }
