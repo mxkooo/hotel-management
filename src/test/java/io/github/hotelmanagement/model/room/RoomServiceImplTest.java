@@ -1,5 +1,6 @@
 package io.github.hotelmanagement.model.room;
 
+import io.github.hotelmanagement.model.price.Price;
 import io.github.hotelmanagement.model.reservation.Reservation;
 import io.github.hotelmanagement.model.room.exception.GetAvailableRoomException;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,11 +9,11 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 class RoomServiceImplTest {
 
@@ -100,5 +101,34 @@ class RoomServiceImplTest {
 
         // then
         assertThrows(GetAvailableRoomException.class, () -> roomService.getAvailableRoom(START_RESERVATION, END_RESERVATION, BED_AMOUNT));
+    }
+
+    @Test
+    void createRoom(){
+        //given
+        RoomDTO roomDTO = new RoomDTO(1L, Price.countPrice(BED_AMOUNT),BED_AMOUNT,6,false, new ArrayList<>());
+
+        Room created = new Room();
+        created.setId(1L);
+        created.setPricePerNight(Price.countPrice(BED_AMOUNT));
+        created.setBedAmount(BED_AMOUNT);
+        created.setMaxPeopleInside(6);
+        created.setReserved(false);
+        created.setReservations(new ArrayList<>());
+
+        //when
+        when(roomRepository.save(any(Room.class))).thenReturn(created);
+
+        RoomDTO createdDTO = roomService.createRoom(roomDTO);
+
+        //then
+        assertEquals(roomDTO.id(), createdDTO.id());
+        assertEquals(roomDTO.pricePerNight(), createdDTO.pricePerNight());
+        assertEquals(roomDTO.bedAmount(), createdDTO.bedAmount());
+        assertEquals(roomDTO.maxPeopleInside(), createdDTO.maxPeopleInside());
+        assertEquals(roomDTO.isReserved(), createdDTO.isReserved());
+
+        verify(roomRepository, times(1)).save(any(Room.class));
+
     }
 }
