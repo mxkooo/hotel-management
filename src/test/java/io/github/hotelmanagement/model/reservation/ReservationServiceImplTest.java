@@ -77,6 +77,5 @@ class ReservationServiceImplTest {
             assertEquals(userReservations.get(i).getId(), result.get(i).id());
         }
 
-
     }
 }
