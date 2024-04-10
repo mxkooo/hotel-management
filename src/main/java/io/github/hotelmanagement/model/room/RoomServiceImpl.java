@@ -71,9 +71,14 @@ class RoomServiceImpl implements RoomService {
                         reservation.getStartReservation().isAfter(startDate) &&
                                 reservation.getEndReservation().isBefore(endDate));
     }
-    public RoomDTO updateRoom(Long id, Room toUpdate) throws Exception {
-        Room room = roomRepository.findById(id)
-                .orElseThrow(() -> new ChangeSetPersister.NotFoundException());
+    public RoomDTO updateRoom(Long id, Room toUpdate) throws NotFoundException {
+        Room room;
+        try {
+            room = roomRepository.findById(id)
+                    .orElseThrow(ChangeSetPersister.NotFoundException::new);
+        } catch (ChangeSetPersister.NotFoundException e) {
+            throw new RuntimeException(e);
+        }
 
         room.setId(toUpdate.getId());
         room.setReserved(toUpdate.isReserved());
