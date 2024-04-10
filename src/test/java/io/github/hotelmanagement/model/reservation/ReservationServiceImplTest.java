@@ -90,6 +90,7 @@ void cancelReservation() {
 
         verify(reservationRepository, times(1)).findById(1L);
 
+
         verify(cancelReservationValidator, times(1)).validate(reservation);
 
         ArgumentCaptor<Long> argumentCaptor = ArgumentCaptor.forClass(Long.class);

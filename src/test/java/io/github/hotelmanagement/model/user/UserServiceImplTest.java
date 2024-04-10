@@ -1,12 +1,14 @@
 package io.github.hotelmanagement.model.user;
 
+import io.github.hotelmanagement.model.exception.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -43,6 +45,31 @@ class UserServiceImplTest {
         //then
         verify(userRepository, times(1)).save(any(User.class));
 
+    }
+    @Test
+    void getUser() {
+        //given
+        User user = new User(1L, "Cristiano", "Ronaldo", new ArrayList<>());
+        //when
+        when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
+        User calledUser = userService.getUser(user.getId());
+        //then
+        assertNotNull(calledUser);
+        assertEquals(user.getId(), calledUser.getId());
+        assertEquals(user.getName(), calledUser.getName());
+        assertEquals(user.getLastName(), calledUser.getLastName());
+        verify(userRepository).findById(user.getId());
+    }
+
+    @Test
+    void getUser_WhenUserDoesNotExist() {
+        //given
+        Long id = 1L;
+        //when
+        when(userRepository.findById(id)).thenReturn(Optional.empty());
+        assertThrows(NotFoundException.class, () -> userService.getUser(id));
+        //then
+        verify(userRepository).findById(id);
     }
 
 
