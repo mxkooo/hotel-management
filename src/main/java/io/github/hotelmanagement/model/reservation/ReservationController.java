@@ -1,8 +1,10 @@
 package io.github.hotelmanagement.model.reservation;
 
 import lombok.AllArgsConstructor;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -12,6 +14,10 @@ public class ReservationController {
 
     private final ReservationService reservationService;
 
+    @GetMapping("/home")
+    public String get(){
+        return "reservation";
+    }
     @GetMapping(RoutesReservation.GET + "/{userId}")
     public List<ReservationDTO> getAllUserReservations(@PathVariable Long userId) {
         return reservationService.getAllUserReservation(userId);

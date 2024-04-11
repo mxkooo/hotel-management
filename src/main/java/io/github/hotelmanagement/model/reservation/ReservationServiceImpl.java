@@ -9,6 +9,7 @@ import io.github.hotelmanagement.model.user.*;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -29,6 +30,11 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Transactional
     public ReservationDTO createReservation(ReservationRequest request, @NonNull Long userId){
+
+        if (request.startReservation().isBefore(LocalDateTime.now())){
+            throw new IllegalArgumentException();
+        }
+
         Room room = roomService.getAvailableRoom(
             request.startReservation(),
             request.endReservation(),
