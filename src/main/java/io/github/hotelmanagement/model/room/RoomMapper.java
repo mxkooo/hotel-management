@@ -1,5 +1,7 @@
 package io.github.hotelmanagement.model.room;
 
+import io.github.hotelmanagement.model.rating.RatingRoom;
+import io.github.hotelmanagement.model.rating.RatingRoomDTO;
 import io.github.hotelmanagement.model.reservation.Reservation;
 import io.github.hotelmanagement.model.reservation.ReservationDTO;
 
@@ -23,6 +25,15 @@ public class RoomMapper {
                         null))
                 .toList();
 
+        List<RatingRoom> rating = Optional.ofNullable(roomDTO.ratingsDTOS())
+                .orElse(Collections.emptyList())
+                .stream()
+                .map(dto -> new RatingRoom(
+                        dto.id(),
+                        dto.stars(),
+                        dto.comment()))
+                .toList();
+
 
         return Room.builder()
                 .id(roomDTO.id())
@@ -30,6 +41,7 @@ public class RoomMapper {
                 .pricePerNight(roomDTO.pricePerNight())
                 .bedAmount(roomDTO.bedAmount())
                 .reservations(reservations)
+                .ratings(rating)
                 .build();
     }
 
@@ -47,12 +59,22 @@ public class RoomMapper {
                         null))
                 .toList();
 
+        List<RatingRoomDTO> ratingDTOS = Optional.ofNullable(room.getRatings())
+                .orElse(Collections.emptyList())
+                .stream()
+                .map(rating -> new RatingRoomDTO(
+                        rating.getId(),
+                        rating.getStars(),
+                        rating.getComment()))
+                .toList();
+
         return RoomDTO.builder()
                 .id(room.getId())
                 .maxPeopleInside(room.getMaxPeopleInside())
                 .pricePerNight(room.getPricePerNight())
                 .bedAmount(room.getBedAmount())
                 .reservationDTOS(reservationDTOS)
+                .ratingsDTOS(ratingDTOS)
                 .build();
     }
 

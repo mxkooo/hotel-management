@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 @Service
 public class RatingServiceImpl {
 
-//    public RatingRoomDTO rateRoom(){
+    public RatingRoomDTO rateRoom(){
         /*
         |na razie funkcja ocenia ogólnie, a nie konkretny pokój|
         1. co ma funkcja przyjmować?
@@ -22,5 +22,5 @@ public class RatingServiceImpl {
         * */
 
 
-//    }
+    }
 }

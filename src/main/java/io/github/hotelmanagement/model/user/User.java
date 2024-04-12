@@ -23,7 +23,7 @@ public class User {
     private String name;
     private String lastName;
     @NotNull
-    private boolean didUserRate;
+    private boolean didUserRate = false;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Reservation> reservations = new ArrayList<>();
 }

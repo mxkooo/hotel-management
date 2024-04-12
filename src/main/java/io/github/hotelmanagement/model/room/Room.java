@@ -31,5 +31,5 @@ public class Room {
     private List<Reservation> reservations = new ArrayList<>();
 
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
-    private RatingRoom ratingRoom;
+    private List<RatingRoom> ratings = new ArrayList<>();
 }
