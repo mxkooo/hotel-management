@@ -54,7 +54,6 @@ public class ReservationServiceImpl implements ReservationService {
                 .orElseThrow(() -> new NotFoundException("Reservation with given id " + reservationId + " does not exist"));
 
         cancelReservationValidator.validate(reservation);
-
         reservationRepository.deleteById(reservationId);
     }
 }

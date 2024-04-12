@@ -1,5 +1,6 @@
 package io.github.hotelmanagement.model.room;
 
+import io.github.hotelmanagement.model.rating.RatingRoom;
 import io.github.hotelmanagement.model.reservation.Reservation;
 import jakarta.persistence.*;
 import lombok.*;
@@ -28,4 +29,7 @@ public class Room {
     boolean isReserved;
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
     private List<Reservation> reservations = new ArrayList<>();
+
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
+    private RatingRoom ratingRoom;
 }

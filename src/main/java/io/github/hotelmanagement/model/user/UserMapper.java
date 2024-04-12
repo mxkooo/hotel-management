@@ -28,6 +28,7 @@ public class UserMapper {
                 .id(user.getId())
                 .name(user.getName())
                 .lastName(user.getLastName())
+                .didUserRate(user.isDidUserRate())
                 .reservationDTOS(reservationDTOS)
                 .build();
 
@@ -51,6 +52,7 @@ public class UserMapper {
                 .id(userDTO.id())
                 .name(userDTO.name())
                 .lastName(userDTO.lastName())
+                .didUserRate(userDTO.didUserRate())
                 .reservations(reservations)
                 .build();
     }
