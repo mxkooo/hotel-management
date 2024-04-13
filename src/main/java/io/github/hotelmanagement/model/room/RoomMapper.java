@@ -63,7 +63,7 @@ public class RoomMapper {
                 .orElse(Collections.emptyList())
                 .stream()
                 .map(rating -> new RatingRoomDTO(
-                        rating.getId(),
+                        rating.getUserId(),
                         rating.getStars(),
                         rating.getComment()))
                 .toList();

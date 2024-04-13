@@ -14,13 +14,10 @@ import org.springframework.lang.NonNull;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RatingRoom {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
 
+    private Long userId;
     @NonNull
     private int stars;
-
     private String comment;
 
 }

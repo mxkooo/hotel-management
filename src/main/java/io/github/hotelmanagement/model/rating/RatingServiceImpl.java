@@ -5,11 +5,8 @@ import io.github.hotelmanagement.model.user.User;
 import io.github.hotelmanagement.model.room.Room;
 import io.github.hotelmanagement.model.user.UserService;
 import io.github.hotelmanagement.model.room.RoomService;
-import io.github.hotelmanagement.model.room.RoomRepository;
-import io.github.hotelmanagement.model.user.UserDTO;
-import io.github.hotelmanagement.model.user.UserServiceImpl;
 
-import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class RatingServiceImpl {
@@ -18,13 +15,15 @@ public class RatingServiceImpl {
     private RatingRepository ratingRepository;
 
     public RatingRoomDTO rateRoom(RatingRoomDTO ratingRoomDTO, Long roomId) throws Exception {
-
         User user = userService.getUser(ratingRoomDTO.userId());
-        boolean empty = user.getReservations().isEmpty();
-        if (user.isDidUserRate() && empty){
+        Room room = roomService.getRoomById(roomId);
+
+        if (user.getRatings().contains(roomId) && user.getReservations().isEmpty()){
             throw new Exception("You have already rated room or you haven't been a guest of this hotel");
         }
-        Room room = roomService.getRoomById(roomId);
+
+        List<RatingRoom> userRatings = user.getRatings();
+        List<RatingRoom> roomRatings = room.getRatings();
 
         RatingRoom rating = RatingRoom.builder()
                 .userId(ratingRoomDTO.userId())
@@ -32,11 +31,15 @@ public class RatingServiceImpl {
                 .comment(ratingRoomDTO.comment())
                 .build();
 
+        checkIfCorrectRate(rating);
+        roomRatings.add(rating);
+        userRatings.add(rating);
+        return RatingMapper.entityToDTO(ratingRepository.save(rating));
+    }
+
+    private static void checkIfCorrectRate(RatingRoom rating) throws Exception {
         if (rating.getStars()> 5 || rating.getStars() <1 && rating.getComment().length() > 250){
             throw new Exception("Ratings are 1-5 and comments are max 250 signs");
         }
-        room.getRatings().add(rating);
-        user.setDidUserRate(true);
-        return RatingMapper.entityToDTO(ratingRepository.save(rating));
     }
 }

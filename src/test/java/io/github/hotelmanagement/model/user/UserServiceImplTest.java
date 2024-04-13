@@ -26,7 +26,7 @@ class UserServiceImplTest {
     @Test
     void createUser() {
         //given
-        UserDTO userDTO = new UserDTO(1L, "Jan", "Nowak", false, new ArrayList<>());
+        UserDTO userDTO = new UserDTO(1L, "Jan", "Nowak", new ArrayList<>(), new ArrayList<>());
 
         User saved = new User();
         saved.setId(1L);
@@ -49,7 +49,7 @@ class UserServiceImplTest {
     @Test
     void getUser() {
         //given
-        User user = new User(1L, "Cristiano", "Ronaldo",false, new ArrayList<>());
+        User user = new User(1L, "Cristiano", "Ronaldo",new ArrayList<>(), new ArrayList<>());
         //when
         when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
         User calledUser = userService.getUser(user.getId());

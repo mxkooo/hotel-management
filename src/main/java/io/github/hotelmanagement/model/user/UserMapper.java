@@ -1,5 +1,7 @@
 package io.github.hotelmanagement.model.user;
 
+import io.github.hotelmanagement.model.rating.RatingRoom;
+import io.github.hotelmanagement.model.rating.RatingRoomDTO;
 import io.github.hotelmanagement.model.reservation.Reservation;
 import io.github.hotelmanagement.model.reservation.ReservationDTO;
 
@@ -24,12 +26,21 @@ public class UserMapper {
                         null))
                 .collect(Collectors.toList());
 
+        List<RatingRoomDTO> ratingsDTOS = Optional.ofNullable(user.getRatings())
+                .orElse(Collections.emptyList())
+                .stream()
+                .map(dto -> new RatingRoomDTO(
+                        dto.getUserId(),
+                        dto.getStars(),
+                        dto.getComment()))
+                .toList();
+
         return UserDTO.builder()
                 .id(user.getId())
                 .name(user.getName())
                 .lastName(user.getLastName())
-                .didUserRate(user.isDidUserRate())
                 .reservationDTOS(reservationDTOS)
+                .ratingsDTOS(ratingsDTOS)
                 .build();
 
     }
@@ -48,12 +59,21 @@ public class UserMapper {
                         null))
                 .collect(Collectors.toList());
 
+        List<RatingRoom> ratings = Optional.ofNullable(userDTO.ratingsDTOS())
+                .orElse(Collections.emptyList())
+                .stream()
+                .map(dto -> new RatingRoom(
+                        dto.userId(),
+                        dto.stars(),
+                        dto.comment()))
+                .toList();
+
         return User.builder()
                 .id(userDTO.id())
                 .name(userDTO.name())
                 .lastName(userDTO.lastName())
-                .didUserRate(userDTO.didUserRate())
                 .reservations(reservations)
+                .ratings(ratings)
                 .build();
     }
 }

@@ -1,5 +1,7 @@
 package io.github.hotelmanagement.model.user;
 
+
+import io.github.hotelmanagement.model.rating.RatingRoomDTO;
 import io.github.hotelmanagement.model.reservation.ReservationDTO;
 import lombok.Builder;
 
@@ -10,7 +12,7 @@ public record UserDTO(
         Long id,
         String name,
         String lastName,
-        boolean didUserRate,
-        List<ReservationDTO> reservationDTOS
+        List<ReservationDTO> reservationDTOS,
+        List<RatingRoomDTO> ratingsDTOS
 ) {
 }

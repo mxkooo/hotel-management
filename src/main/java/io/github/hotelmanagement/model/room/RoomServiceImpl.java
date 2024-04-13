@@ -1,6 +1,5 @@
 package io.github.hotelmanagement.model.room;
 
-import io.github.hotelmanagement.model.user.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import lombok.AllArgsConstructor;
