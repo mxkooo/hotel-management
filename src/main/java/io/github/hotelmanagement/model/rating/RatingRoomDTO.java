@@ -4,7 +4,7 @@ import lombok.Builder;
 
 @Builder
 public record RatingRoomDTO(
-        Long id,
+        Long userId,
         int stars,
         String comment
 ) {

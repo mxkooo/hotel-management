@@ -16,7 +16,7 @@ import org.springframework.lang.NonNull;
 public class RatingRoom {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long userId;
 
     @NonNull
     private int stars;
