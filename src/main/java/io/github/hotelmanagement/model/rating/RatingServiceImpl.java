@@ -32,7 +32,7 @@ public class RatingServiceImpl {
                 .comment(ratingRoomDTO.comment())
                 .build();
 
-        if (ratingRoomDTO.stars()> 5 || ratingRoomDTO.stars() <1 && ratingRoomDTO.comment().length() > 250){
+        if (rating.getStars()> 5 || rating.getStars() <1 && rating.getComment().length() > 250){
             throw new Exception("Ratings are 1-5 and comments are max 250 signs");
         }
         room.getRatings().add(rating);
