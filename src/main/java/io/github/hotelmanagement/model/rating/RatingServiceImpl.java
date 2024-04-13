@@ -17,9 +17,13 @@ public class RatingServiceImpl {
     private RoomService roomService;
     private RatingRepository ratingRepository;
 
-    public RatingRoomDTO rateRoom(RatingRoomDTO ratingRoomDTO, Long roomId){
+    public RatingRoomDTO rateRoom(RatingRoomDTO ratingRoomDTO, Long roomId) throws Exception {
 
         User user = userService.getUser(ratingRoomDTO.userId());
+        boolean empty = user.getReservations().isEmpty();
+        if (user.isDidUserRate() && empty){
+            throw new Exception("You have already rated room or you haven't been a guest of this hotel");
+        }
         Room room = roomService.getRoomById(roomId);
 
         RatingRoom rating = RatingRoom.builder()
@@ -28,6 +32,9 @@ public class RatingServiceImpl {
                 .comment(ratingRoomDTO.comment())
                 .build();
 
+        if (ratingRoomDTO.stars()> 5 || ratingRoomDTO.stars() <1 && ratingRoomDTO.comment().length() > 250){
+            throw new Exception("Ratings are 1-5 and comments are max 250 signs");
+        }
         room.getRatings().add(rating);
         user.setDidUserRate(true);
         return RatingMapper.entityToDTO(ratingRepository.save(rating));
