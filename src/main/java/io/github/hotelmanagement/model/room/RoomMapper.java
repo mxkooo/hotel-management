@@ -31,7 +31,8 @@ public class RoomMapper {
                 .map(dto -> new RatingRoom(
                         dto.userId(),
                         dto.stars(),
-                        dto.comment()))
+                        dto.comment(),
+                        Room.builder().build()))
                 .toList();
 
 

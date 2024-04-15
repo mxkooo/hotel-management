@@ -15,8 +15,8 @@ public class RatingServiceImpl {
     private RoomService roomService;
     private RatingRepository ratingRepository;
 
-    public RatingRoomDTO rateRoom(RatingRoomDTO ratingRoomDTO, Long roomId) throws Exception {
-        User user = userService.getUser(ratingRoomDTO.userId());
+    public RatingRoomDTO rateRoom(RatingRoomDTO ratingRoomDTO, Long roomId, Long userId) throws Exception {
+        User user = userService.getUser(userId);
         Room room = roomService.getRoomById(roomId);
 
         List<RatingRoom> userRatings = user.getRatings();
@@ -31,7 +31,7 @@ public class RatingServiceImpl {
         }
 
         RatingRoom rating = RatingRoom.builder()
-                .userId(ratingRoomDTO.userId())
+                .id(ratingRoomDTO.id())
                 .stars(ratingRoomDTO.stars())
                 .comment(ratingRoomDTO.comment())
                 .build();
@@ -41,8 +41,7 @@ public class RatingServiceImpl {
         userRatings.add(rating);
         return RatingMapper.entityToDTO(ratingRepository.save(rating));
     }
-
-    private static boolean isUserGuest(Long roomId, User user) {
+    boolean isUserGuest(Long roomId, User user) {
         boolean isUserGuest = false;
         for (Reservation reservation : user.getReservations()) {
             if (reservation.getRoom().getId().equals(roomId)) {
@@ -52,8 +51,7 @@ public class RatingServiceImpl {
         }
         return isUserGuest;
     }
-
-    private static void checkIfUserRated(Long roomId, User user) throws Exception {
+    void checkIfUserRated(Long roomId, User user) throws Exception {
         for (RatingRoom rating : user.getRatings()) {
             if (rating.getRoom().getId().equals(roomId)) {
                 throw new Exception("You have already rated this room.");
@@ -61,7 +59,7 @@ public class RatingServiceImpl {
         }
     }
 
-    private static void checkIfCorrectRate(RatingRoom rating) throws Exception {
+    void checkIfCorrectRate(RatingRoom rating) throws Exception {
         if (rating.getStars()> 5 || rating.getStars() <1 && rating.getComment().length() > 250){
             throw new Exception("Ratings are 1-5 and comments are max 250 signs");
         }

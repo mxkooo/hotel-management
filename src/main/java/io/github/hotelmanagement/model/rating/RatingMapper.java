@@ -3,14 +3,14 @@ package io.github.hotelmanagement.model.rating;
 public class RatingMapper {
     public static RatingRoom DTOToEntity(RatingRoomDTO ratingRoomDTO){
         return RatingRoom.builder()
-                .userId(ratingRoomDTO.userId())
+                .id(ratingRoomDTO.id())
                 .comment(ratingRoomDTO.comment())
                 .build();
     }
 
     public static RatingRoomDTO entityToDTO(RatingRoom ratingRoom){
         return RatingRoomDTO.builder()
-                .userId(ratingRoom.getUserId())
+                .id(ratingRoom.getId())
                 .comment(ratingRoom.getComment())
                 .build();
     }

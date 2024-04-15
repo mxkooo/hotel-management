@@ -10,13 +10,14 @@ import org.springframework.lang.NonNull;
 @Table(name = "RATING")
 @Entity
 @Getter
-@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class RatingRoom {
 
-    private Long userId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @NonNull
     private int stars;
     private String comment;
