@@ -7,6 +7,7 @@ import io.github.hotelmanagement.model.room.Room;
 import io.github.hotelmanagement.model.user.UserService;
 import io.github.hotelmanagement.model.room.RoomService;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -22,10 +23,11 @@ public class RatingServiceImpl {
         List<RatingRoom> userRatings = user.getRatings();
         List<RatingRoom> roomRatings = room.getRatings();
 
-        checkIfUserRated(roomId, user);
-
+        boolean didUserRate = checkIfUserRated(roomId, user);
+        if (didUserRate){
+            throw new Exception("You have already rated a room");
+        }
         boolean isUserGuest = isUserGuest(roomId, user);
-
         if (!isUserGuest) {
             throw new Exception("You haven't been a guest of this hotel.");
         }
@@ -42,21 +44,15 @@ public class RatingServiceImpl {
         return RatingMapper.entityToDTO(ratingRepository.save(rating));
     }
     boolean isUserGuest(Long roomId, User user) {
-        boolean isUserGuest = false;
-        for (Reservation reservation : user.getReservations()) {
-            if (reservation.getRoom().getId().equals(roomId)) {
-                isUserGuest = true;
-                break;
-            }
-        }
-        return isUserGuest;
+        return user.getReservations()
+                .stream()
+                .anyMatch(reservation -> reservation.getEndReservation().isBefore(LocalDateTime.now()));
     }
-    void checkIfUserRated(Long roomId, User user) throws Exception {
-        for (RatingRoom rating : user.getRatings()) {
-            if (rating.getRoom().getId().equals(roomId)) {
-                throw new Exception("You have already rated this room.");
-            }
-        }
+    boolean checkIfUserRated(Long roomId, User user){
+        return user.getReservations()
+                .stream()
+                .anyMatch(rating -> rating.getRoom().getId().equals(roomId));
+
     }
 
     void checkIfCorrectRate(RatingRoom rating) throws Exception {

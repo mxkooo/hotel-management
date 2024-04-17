@@ -22,7 +22,6 @@ public class RatingRoom {
     private int stars;
     private String comment;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "room_id")
-    private Room room;
+    @ManyToOne
+    private Room room = new Room();
 }

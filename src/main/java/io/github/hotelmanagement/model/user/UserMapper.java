@@ -4,6 +4,7 @@ import io.github.hotelmanagement.model.rating.RatingRoom;
 import io.github.hotelmanagement.model.rating.RatingRoomDTO;
 import io.github.hotelmanagement.model.reservation.Reservation;
 import io.github.hotelmanagement.model.reservation.ReservationDTO;
+import io.github.hotelmanagement.model.room.Room;
 
 import java.util.Collections;
 import java.util.List;
@@ -30,7 +31,7 @@ public class UserMapper {
                 .orElse(Collections.emptyList())
                 .stream()
                 .map(dto -> new RatingRoomDTO(
-                        dto.getUserId(),
+                        dto.getId(),
                         dto.getStars(),
                         dto.getComment()))
                 .toList();
@@ -63,9 +64,10 @@ public class UserMapper {
                 .orElse(Collections.emptyList())
                 .stream()
                 .map(dto -> new RatingRoom(
-                        dto.userId(),
+                        dto.id(),
                         dto.stars(),
-                        dto.comment()))
+                        dto.comment(),
+                        Room.builder().build()))
                 .toList();
 
         return User.builder()

@@ -12,7 +12,7 @@ public class RatingController {
     private final RatingService ratingService;
 
     @PostMapping(RoutesRating.POST)
-    public RatingRoomDTO rateRoom(RatingRoomDTO ratingRoomDTO, Long roomId) throws Exception{
-        return ratingService.rateRoom(ratingRoomDTO, roomId);
+    public RatingRoomDTO rateRoom(RatingRoomDTO ratingRoomDTO, Long roomId, Long userId) throws Exception{
+        return ratingService.rateRoom(ratingRoomDTO, roomId, userId);
     }
 }

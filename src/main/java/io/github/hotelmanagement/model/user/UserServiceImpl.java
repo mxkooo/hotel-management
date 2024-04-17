@@ -13,7 +13,6 @@ public class UserServiceImpl implements UserService{
     public UserDTO createUser(UserDTO userDTO){
         User user = new User();
         user.setName(userDTO.name());
-        user.setDidUserRate(userDTO.didUserRate());
         user.setLastName(userDTO.lastName());
         return UserMapper.mapToDTO(userRepository.save(user));
     }

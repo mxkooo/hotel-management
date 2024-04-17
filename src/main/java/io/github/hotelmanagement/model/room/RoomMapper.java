@@ -29,7 +29,7 @@ public class RoomMapper {
                 .orElse(Collections.emptyList())
                 .stream()
                 .map(dto -> new RatingRoom(
-                        dto.userId(),
+                        dto.id(),
                         dto.stars(),
                         dto.comment(),
                         Room.builder().build()))
@@ -64,7 +64,7 @@ public class RoomMapper {
                 .orElse(Collections.emptyList())
                 .stream()
                 .map(rating -> new RatingRoomDTO(
-                        rating.getUserId(),
+                        rating.getId(),
                         rating.getStars(),
                         rating.getComment()))
                 .toList();

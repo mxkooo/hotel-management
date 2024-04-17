@@ -38,7 +38,6 @@
             </column>
             <column name="NAME" type="VARCHAR(250)"/>
             <column name="LAST_NAME" type="VARCHAR(250)"/>
-            <column name="RATING" type="BOOLEAN"/>
         </createTable>
     </changeSet>
 </databaseChangeLog>
