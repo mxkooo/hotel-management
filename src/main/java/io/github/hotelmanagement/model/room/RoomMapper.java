@@ -29,13 +29,14 @@ public class RoomMapper {
         List<RatingRoom> rating = Optional.ofNullable(roomDTO.ratingsDTOS())
                 .orElse(Collections.emptyList())
                 .stream()
-                .map(dto -> new RatingRoom(
-                        dto.id(),
-                        dto.stars(),
-                        dto.comment(),
-                        Room.builder().build(),
-                        User.builder().build()))
+                .map(dto -> RatingRoom.builder()
+                        .id(dto.id())
+                        .stars(dto.stars())
+                        .comment(dto.comment())
+                        .room(null)
+                        .user(null).build())
                 .toList();
+
 
 
         return Room.builder()
@@ -65,10 +66,11 @@ public class RoomMapper {
         List<RatingRoomDTO> ratingDTOS = Optional.ofNullable(room.getRatings())
                 .orElse(Collections.emptyList())
                 .stream()
-                .map(rating -> new RatingRoomDTO(
-                        rating.getId(),
-                        rating.getStars(),
-                        rating.getComment()))
+                .map(rating -> RatingRoomDTO.builder()
+                        .id(rating.getId())
+                        .comment(rating.getComment())
+                        .stars(rating.getStars())
+                        .build())
                 .toList();
 
         return RoomDTO.builder()
