@@ -67,7 +67,8 @@ public class UserMapper {
                         dto.id(),
                         dto.stars(),
                         dto.comment(),
-                        Room.builder().build()))
+                        Room.builder().build(),
+                        User.builder().build()))
                 .toList();
 
         return User.builder()

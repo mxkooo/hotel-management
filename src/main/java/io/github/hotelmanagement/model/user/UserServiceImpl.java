@@ -4,6 +4,8 @@ import io.github.hotelmanagement.model.exception.NotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 @AllArgsConstructor
 public class UserServiceImpl implements UserService{
@@ -18,5 +20,10 @@ public class UserServiceImpl implements UserService{
     }
     public User getUser(Long userId){
         return userRepository.findById(userId).orElseThrow(() -> new NotFoundException("user not found"));
+    }
+    public boolean isUserGuest(Long roomId, User user) {
+        return user.getReservations()
+                .stream()
+                .anyMatch(reservation -> reservation.getEndReservation().isBefore(LocalDateTime.now()));
     }
 }

@@ -4,6 +4,7 @@ import io.github.hotelmanagement.model.rating.RatingRoom;
 import io.github.hotelmanagement.model.rating.RatingRoomDTO;
 import io.github.hotelmanagement.model.reservation.Reservation;
 import io.github.hotelmanagement.model.reservation.ReservationDTO;
+import io.github.hotelmanagement.model.user.User;
 
 import java.util.Collections;
 import java.util.List;
@@ -32,7 +33,8 @@ public class RoomMapper {
                         dto.id(),
                         dto.stars(),
                         dto.comment(),
-                        Room.builder().build()))
+                        Room.builder().build(),
+                        User.builder().build()))
                 .toList();
 
 

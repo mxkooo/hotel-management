@@ -10,6 +10,7 @@
             <column name="ID" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
+            <column name="STARS" type="INTEGER"/>
             <column name="COMMENT" type="VARCHAR(250)"/>
         </createTable>
 

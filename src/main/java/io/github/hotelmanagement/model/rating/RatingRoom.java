@@ -1,6 +1,7 @@
 package io.github.hotelmanagement.model.rating;
 
 import io.github.hotelmanagement.model.room.Room;
+import io.github.hotelmanagement.model.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,6 +23,11 @@ public class RatingRoom {
     private int stars;
     private String comment;
 
-    @ManyToOne
-    private Room room = new Room();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "room_id")
+    private Room room;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 }

@@ -1,6 +1,7 @@
 package io.github.hotelmanagement.model.rating;
 
 import io.github.hotelmanagement.model.reservation.Reservation;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import io.github.hotelmanagement.model.user.User;
 import io.github.hotelmanagement.model.room.Room;
@@ -11,7 +12,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-public class RatingServiceImpl {
+@AllArgsConstructor
+public class RatingServiceImpl implements RatingService{
     private UserService userService;
     private RoomService roomService;
     private RatingRepository ratingRepository;
@@ -27,7 +29,8 @@ public class RatingServiceImpl {
         if (didUserRate){
             throw new Exception("You have already rated a room");
         }
-        boolean isUserGuest = isUserGuest(roomId, user);
+
+        boolean isUserGuest = userService.isUserGuest(roomId, user);
         if (!isUserGuest) {
             throw new Exception("You haven't been a guest of this hotel.");
         }
@@ -43,18 +46,12 @@ public class RatingServiceImpl {
         userRatings.add(rating);
         return RatingMapper.entityToDTO(ratingRepository.save(rating));
     }
-    boolean isUserGuest(Long roomId, User user) {
-        return user.getReservations()
-                .stream()
-                .anyMatch(reservation -> reservation.getEndReservation().isBefore(LocalDateTime.now()));
-    }
     boolean checkIfUserRated(Long roomId, User user){
         return user.getReservations()
                 .stream()
                 .anyMatch(rating -> rating.getRoom().getId().equals(roomId));
 
     }
-
     void checkIfCorrectRate(RatingRoom rating) throws Exception {
         if (rating.getStars()> 5 || rating.getStars() <1 && rating.getComment().length() > 250){
             throw new Exception("Ratings are 1-5 and comments are max 250 signs");
