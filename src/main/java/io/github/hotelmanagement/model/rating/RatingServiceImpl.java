@@ -30,7 +30,7 @@ public class RatingServiceImpl implements RatingService{
             throw new Exception("You have already rated a room");
         }
 
-        boolean isUserGuest = userService.isUserGuest(roomId, user);
+        boolean isUserGuest = userService.wasUserGuest(roomId, user);
         if (!isUserGuest) {
             throw new Exception("You haven't been a guest of this hotel.");
         }
@@ -47,7 +47,7 @@ public class RatingServiceImpl implements RatingService{
         return RatingMapper.entityToDTO(ratingRepository.save(rating));
     }
     boolean checkIfUserRated(Long roomId, User user){
-        return user.getReservations()
+        return user.getRatings()
                 .stream()
                 .anyMatch(rating -> rating.getRoom().getId().equals(roomId));
 

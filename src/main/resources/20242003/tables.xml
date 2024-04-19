@@ -12,6 +12,8 @@
             </column>
             <column name="STARS" type="INTEGER"/>
             <column name="COMMENT" type="VARCHAR(250)"/>
+            <column name="USER_ID" type="BIGINT"/>
+            <column name="ROOM_ID" type="BIGINT"/>
         </createTable>
 
         <createTable tableName="RESERVATION">
