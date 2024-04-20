@@ -1,6 +1,9 @@
 package io.github.hotelmanagement.model.rating;
 
 import io.github.hotelmanagement.model.reservation.Reservation;
+import io.github.hotelmanagement.model.reservation.ReservationDTO;
+import io.github.hotelmanagement.model.reservation.ReservationMapper;
+import io.github.hotelmanagement.model.reservation.ReservationService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import io.github.hotelmanagement.model.user.User;

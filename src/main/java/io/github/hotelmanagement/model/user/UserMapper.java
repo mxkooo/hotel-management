@@ -30,10 +30,13 @@ public class UserMapper {
         List<RatingRoomDTO> ratingsDTOS = Optional.ofNullable(user.getRatings())
                 .orElse(Collections.emptyList())
                 .stream()
-                .map(dto -> new RatingRoomDTO(
-                        dto.getId(),
-                        dto.getStars(),
-                        dto.getComment()))
+                .map(dto -> RatingRoomDTO.builder()
+                        .id(dto.getId())
+                        .stars(dto.getStars())
+                        .comment(dto.getComment())
+                        .userDTO(null)
+                        .roomDTO(null)
+                        .build())
                 .toList();
 
         return UserDTO.builder()
@@ -63,12 +66,12 @@ public class UserMapper {
         List<RatingRoom> ratings = Optional.ofNullable(userDTO.ratingsDTOS())
                 .orElse(Collections.emptyList())
                 .stream()
-                .map(dto -> new RatingRoom(
-                        dto.id(),
-                        dto.stars(),
-                        dto.comment(),
-                        Room.builder().build(),
-                        User.builder().build()))
+                .map(dto -> RatingRoom.builder()
+                        .id(dto.id())
+                        .stars(dto.stars())
+                        .comment(dto.comment())
+                        .room(null)
+                        .user(null).build())
                 .toList();
 
         return User.builder()
