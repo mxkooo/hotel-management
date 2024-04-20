@@ -71,6 +71,7 @@ class RoomServiceImpl implements RoomService {
                         reservation.getStartReservation().isAfter(startDate) &&
                                 reservation.getEndReservation().isBefore(endDate));
     }
+
     public RoomDTO updateRoom(Long id, Room toUpdate) throws NotFoundException {
         Room room;
         try {
@@ -88,4 +89,9 @@ class RoomServiceImpl implements RoomService {
         room.setMaxPeopleInside(toUpdate.getMaxPeopleInside());
         return RoomMapper.entityToDTO(roomRepository.save(room));
     }
+
+    public Room getRoomById(Long roomId){
+        return roomRepository.findById(roomId).orElseThrow(() -> new NotFoundException("room not found"));
+    }
+
 }

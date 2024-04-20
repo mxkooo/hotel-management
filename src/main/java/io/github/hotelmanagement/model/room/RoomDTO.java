@@ -1,8 +1,8 @@
 package io.github.hotelmanagement.model.room;
 
+import io.github.hotelmanagement.model.rating.RatingRoomDTO;
 import io.github.hotelmanagement.model.reservation.ReservationDTO;
 import lombok.Builder;
-import lombok.Setter;
 
 import java.util.List;
 
@@ -13,7 +13,8 @@ public record RoomDTO(
         int bedAmount,
         int maxPeopleInside,
         boolean isReserved,
-        List<ReservationDTO> reservationDTOS
+        List<ReservationDTO> reservationDTOS,
+        List<RatingRoomDTO> ratingsDTOS
 )
 {
 }

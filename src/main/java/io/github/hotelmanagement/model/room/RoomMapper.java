@@ -1,7 +1,10 @@
 package io.github.hotelmanagement.model.room;
 
+import io.github.hotelmanagement.model.rating.RatingRoom;
+import io.github.hotelmanagement.model.rating.RatingRoomDTO;
 import io.github.hotelmanagement.model.reservation.Reservation;
 import io.github.hotelmanagement.model.reservation.ReservationDTO;
+import io.github.hotelmanagement.model.user.User;
 
 import java.util.Collections;
 import java.util.List;
@@ -23,6 +26,18 @@ public class RoomMapper {
                         null))
                 .toList();
 
+        List<RatingRoom> rating = Optional.ofNullable(roomDTO.ratingsDTOS())
+                .orElse(Collections.emptyList())
+                .stream()
+                .map(dto -> RatingRoom.builder()
+                        .id(dto.id())
+                        .stars(dto.stars())
+                        .comment(dto.comment())
+                        .room(null)
+                        .user(null).build())
+                .toList();
+
+
 
         return Room.builder()
                 .id(roomDTO.id())
@@ -30,6 +45,7 @@ public class RoomMapper {
                 .pricePerNight(roomDTO.pricePerNight())
                 .bedAmount(roomDTO.bedAmount())
                 .reservations(reservations)
+                .ratings(rating)
                 .build();
     }
 
@@ -47,12 +63,23 @@ public class RoomMapper {
                         null))
                 .toList();
 
+        List<RatingRoomDTO> ratingDTOS = Optional.ofNullable(room.getRatings())
+                .orElse(Collections.emptyList())
+                .stream()
+                .map(rating -> RatingRoomDTO.builder()
+                        .id(rating.getId())
+                        .comment(rating.getComment())
+                        .stars(rating.getStars())
+                        .build())
+                .toList();
+
         return RoomDTO.builder()
                 .id(room.getId())
                 .maxPeopleInside(room.getMaxPeopleInside())
                 .pricePerNight(room.getPricePerNight())
                 .bedAmount(room.getBedAmount())
                 .reservationDTOS(reservationDTOS)
+                .ratingsDTOS(ratingDTOS)
                 .build();
     }
 

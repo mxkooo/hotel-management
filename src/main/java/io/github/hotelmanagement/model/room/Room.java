@@ -1,5 +1,6 @@
 package io.github.hotelmanagement.model.room;
 
+import io.github.hotelmanagement.model.rating.RatingRoom;
 import io.github.hotelmanagement.model.reservation.Reservation;
 import jakarta.persistence.*;
 import lombok.*;
@@ -19,6 +20,7 @@ public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @NonNull
     private double pricePerNight;
     @NonNull
@@ -26,6 +28,10 @@ public class Room {
     private int maxPeopleInside;
     @NonNull
     boolean isReserved;
+
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
     private List<Reservation> reservations = new ArrayList<>();
+
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
+    private List<RatingRoom> ratings = new ArrayList<>();
 }

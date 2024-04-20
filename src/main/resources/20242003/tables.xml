@@ -5,6 +5,17 @@
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
 
     <changeSet id="create_tables" author="kon">
+
+        <createTable tableName="RATING">
+            <column name="ID" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="STARS" type="INTEGER"/>
+            <column name="COMMENT" type="VARCHAR(250)"/>
+            <column name="USER_ID" type="BIGINT"/>
+            <column name="ROOM_ID" type="BIGINT"/>
+        </createTable>
+
         <createTable tableName="RESERVATION">
             <column name="ID" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
