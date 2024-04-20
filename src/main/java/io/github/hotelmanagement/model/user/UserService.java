@@ -8,5 +8,5 @@ import java.util.List;
 public interface UserService {
     UserDTO createUser(UserDTO userDTO);
     User getUser(Long userId);
-    boolean wasUserGuest(List<Reservation> reservations, User user) throws Exception;
+    boolean isWasUserGuest(List<Reservation> reservations, User user) throws Exception;
 }

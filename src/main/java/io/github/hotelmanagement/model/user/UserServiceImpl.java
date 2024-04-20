@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService{
     public User getUser(Long userId){
         return userRepository.findById(userId).orElseThrow(() -> new NotFoundException("user not found"));
     }
-    public boolean wasUserGuest(List<Reservation> reservation, User user){
+    public boolean isWasUserGuest(List<Reservation> reservation, User user){
         return reservation
                 .stream()
                 .anyMatch(r -> r.getUser().equals(user));

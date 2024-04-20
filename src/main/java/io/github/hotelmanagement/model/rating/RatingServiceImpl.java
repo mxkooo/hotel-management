@@ -26,13 +26,13 @@ public class RatingServiceImpl implements RatingService{
         List<RatingRoom> roomRatings = room.getRatings();
         List<Reservation> userReservations = user.getReservations();
 
-        boolean didUserRate = checkIfUserRated(roomId, user);
-        if (didUserRate){
+        boolean isDidUserRate = isCheckIfUserRated(roomId, user);
+        if (isDidUserRate){
             throw new Exception("You have already rated a room");
         }
 
-        boolean isUserGuest = userService.wasUserGuest(userReservations, user);
-        if (!isUserGuest) {
+        boolean isWasUserGuest = userService.isWasUserGuest(userReservations, user);
+        if (!isWasUserGuest) {
             throw new Exception("You haven't been a guest of this hotel.");
         }
 
@@ -47,7 +47,7 @@ public class RatingServiceImpl implements RatingService{
         userRatings.add(rating);
         return RatingMapper.entityToDTO(ratingRepository.save(rating));
     }
-    boolean checkIfUserRated(Long roomId, User user){
+    boolean isCheckIfUserRated(Long roomId, User user){
         return user.getRatings()
                 .stream()
                 .anyMatch(rating -> rating.getRoom().getId().equals(roomId));
