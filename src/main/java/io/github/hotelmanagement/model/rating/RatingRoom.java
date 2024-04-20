@@ -1,31 +1,33 @@
-package io.github.hotelmanagement.model.reservation;
+package io.github.hotelmanagement.model.rating;
 
 import io.github.hotelmanagement.model.room.Room;
 import io.github.hotelmanagement.model.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
+import org.springframework.lang.NonNull;
 
-@Table(name = "RESERVATION")
+
+@Table(name = "RATING")
 @Entity
 @Getter
-@Setter
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class Reservation {
+@NoArgsConstructor
+public class RatingRoom {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private LocalDateTime startReservation;
-    private LocalDateTime endReservation;
-    private boolean isReserved;
-    @ManyToOne
+    @NonNull
+    private int stars;
+    private String comment;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_id")
     private Room room;
-    @ManyToOne
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 }

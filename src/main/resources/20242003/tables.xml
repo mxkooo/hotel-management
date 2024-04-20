@@ -1,0 +1,46 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+
+    <changeSet id="create_tables" author="kon">
+
+        <createTable tableName="RATING">
+            <column name="ID" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="STARS" type="INTEGER"/>
+            <column name="COMMENT" type="VARCHAR(250)"/>
+            <column name="USER_ID" type="BIGINT"/>
+            <column name="ROOM_ID" type="BIGINT"/>
+        </createTable>
+
+        <createTable tableName="RESERVATION">
+            <column name="ID" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="START_RESERVATION" type="TIMESTAMP"/>
+            <column name="END_RESERVATION" type="TIMESTAMP"/>
+            <column name="IS_RESERVED" type="BOOLEAN"/>
+            <column name="ROOM_ID" type="BIGINT"/>
+            <column name="USER_ID" type="BIGINT"/>
+        </createTable>
+        <createTable tableName="ROOM">
+            <column name="ID" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="PRICE_PER_NIGHT" type="INTEGER"/>
+            <column name="IS_RESERVED" type="BOOLEAN"/>
+            <column name="BED_AMOUNT" type="INTEGER"/>
+            <column name="MAX_PEOPLE_INSIDE" type="INT"/>
+        </createTable>
+        <createTable tableName="USER_QUEST">
+            <column name="ID" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="NAME" type="VARCHAR(250)"/>
+            <column name="LAST_NAME" type="VARCHAR(250)"/>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

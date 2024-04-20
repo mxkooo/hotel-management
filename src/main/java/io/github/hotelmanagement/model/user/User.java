@@ -1,37 +1,32 @@
-package io.github.hotelmanagement.model.room;
+package io.github.hotelmanagement.model.user;
 
 import io.github.hotelmanagement.model.rating.RatingRoom;
 import io.github.hotelmanagement.model.reservation.Reservation;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.lang.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Table(name = "ROOM")
+@Table(name = "USER_QUEST")
 @Entity
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Room {
+public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NonNull
-    private double pricePerNight;
-    @NonNull
-    private int bedAmount;
-    private int maxPeopleInside;
-    @NonNull
-    boolean isReserved;
+    private String name;
+    private String lastName;
 
-    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Reservation> reservations = new ArrayList<>();
 
-    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<RatingRoom> ratings = new ArrayList<>();
 }
