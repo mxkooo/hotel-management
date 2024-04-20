@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel</title>
+    <link rel="stylesheet" href="https://igoradamenko.com/awsm.css/v2/css/awsm.min.css">
+</head>
+    <style>
+
+    </style>
+<body>
+    <main>
+        <form action="#" method="get">
+            <fieldset>
+                <legend>Znajdź dostępną rezerwację</legend>
+                <label>
+                    Od:
+                    <input class="dateFrom" type="date" name="from">
+                </label>
+                <label>
+                    Do:
+                    <input class="dateTo" type="date"  name="to">
+                </label>
+                <label>
+                    Ilość łóżek:
+                    <input class="bedAmount" type="number" max="4" min="1" name="bedAmount">
+                </label>
+                <label>
+                    <button th:onclick="createReservation"> Zatwierdź rezerwację</button>
+                </label>
+            </fieldset>
+        </form>
+    </main>
+
+</body>
+</html>
