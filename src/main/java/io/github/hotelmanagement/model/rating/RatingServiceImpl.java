@@ -24,13 +24,14 @@ public class RatingServiceImpl implements RatingService{
 
         List<RatingRoom> userRatings = user.getRatings();
         List<RatingRoom> roomRatings = room.getRatings();
+        List<Reservation> userReservations = user.getReservations();
 
         boolean didUserRate = checkIfUserRated(roomId, user);
         if (didUserRate){
             throw new Exception("You have already rated a room");
         }
 
-        boolean isUserGuest = userService.wasUserGuest(roomId, user);
+        boolean isUserGuest = userService.wasUserGuest(userReservations, user);
         if (!isUserGuest) {
             throw new Exception("You haven't been a guest of this hotel.");
         }
@@ -41,7 +42,7 @@ public class RatingServiceImpl implements RatingService{
                 .comment(ratingRoomDTO.comment())
                 .build();
 
-        checkIfCorrectRate(rating);
+        checkIfCorrectRate(RatingMapper.entityToDTO(rating));
         roomRatings.add(rating);
         userRatings.add(rating);
         return RatingMapper.entityToDTO(ratingRepository.save(rating));
@@ -52,8 +53,8 @@ public class RatingServiceImpl implements RatingService{
                 .anyMatch(rating -> rating.getRoom().getId().equals(roomId));
 
     }
-    void checkIfCorrectRate(RatingRoom rating) throws Exception {
-        if (rating.getStars()> 5 || rating.getStars() <1 && rating.getComment().length() > 250){
+    void checkIfCorrectRate(RatingRoomDTO rating) throws Exception {
+        if (rating.stars()> 5 || rating.stars() <1 && rating.comment().length() > 250){
             throw new Exception("Ratings are 1-5 and comments are max 250 signs");
         }
     }
