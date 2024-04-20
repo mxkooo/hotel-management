@@ -43,6 +43,8 @@ public class RatingServiceImpl implements RatingService{
                 .id(ratingRoomDTO.id())
                 .stars(ratingRoomDTO.stars())
                 .comment(ratingRoomDTO.comment())
+                .room(room)
+                .user(user)
                 .build();
 
         checkIfCorrectRate(RatingMapper.entityToDTO(rating));
