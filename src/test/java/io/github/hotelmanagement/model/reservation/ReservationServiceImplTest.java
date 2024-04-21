@@ -28,8 +28,8 @@ class ReservationServiceImplTest {
     private final static LocalDateTime END_RESERVATION = LocalDateTime.of(2024, 10, 15, 0, 0);
     private final static int BED_AMOUNT = 2;
     static ReservationRequest reservationRequest = new ReservationRequest(START_RESERVATION, END_RESERVATION, BED_AMOUNT);
-    static Room room = new Room(1L, 260, BED_AMOUNT, 4, false, new ArrayList<>());
-    static User user = new User(1L, "Jan", "Nowak", new ArrayList<>());
+    static Room room = new Room(1L, 260, BED_AMOUNT, 4, false, new ArrayList<>(),new ArrayList<>());
+    static User user = new User(1L, "Jan", "Nowak", new ArrayList<>(),new ArrayList<>());
 
     @BeforeEach
     void prepare() {

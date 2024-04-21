@@ -19,8 +19,7 @@ public class RatingRoom {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NonNull
-    private int stars;
+    private RatingStars ratingStars;
     private String comment;
 
     @ManyToOne(fetch = FetchType.LAZY)

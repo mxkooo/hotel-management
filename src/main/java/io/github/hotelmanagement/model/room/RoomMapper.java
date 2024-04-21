@@ -2,9 +2,9 @@ package io.github.hotelmanagement.model.room;
 
 import io.github.hotelmanagement.model.rating.RatingRoom;
 import io.github.hotelmanagement.model.rating.RatingRoomDTO;
+import io.github.hotelmanagement.model.rating.RatingStars;
 import io.github.hotelmanagement.model.reservation.Reservation;
 import io.github.hotelmanagement.model.reservation.ReservationDTO;
-import io.github.hotelmanagement.model.user.User;
 
 import java.util.Collections;
 import java.util.List;
@@ -31,7 +31,7 @@ public class RoomMapper {
                 .stream()
                 .map(dto -> RatingRoom.builder()
                         .id(dto.id())
-                        .stars(dto.stars())
+                        .ratingStars(new RatingStars(dto.stars()))
                         .comment(dto.comment())
                         .room(null)
                         .user(null).build())
@@ -69,7 +69,7 @@ public class RoomMapper {
                 .map(rating -> RatingRoomDTO.builder()
                         .id(rating.getId())
                         .comment(rating.getComment())
-                        .stars(rating.getStars())
+                        .stars(rating.getRatingStars().getStars())
                         .build())
                 .toList();
 
@@ -82,6 +82,5 @@ public class RoomMapper {
                 .ratingsDTOS(ratingDTOS)
                 .build();
     }
-
 }
 
