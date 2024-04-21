@@ -6,6 +6,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.stream.Stream;
 
@@ -28,8 +29,8 @@ class ReservationMapperTest {
     }
 
     private static Stream<Reservation> reservationWithUserDTOProvider() {
-        User user = new User(1L, "Jan", "Paweł", Collections.emptyList());
-        Room room = new Room(1L,2,2,90,true,Collections.emptyList());
+        User user = new User(1L, "Jan", "Paweł", Collections.emptyList(),new ArrayList<>());
+        Room room = new Room(1L,2,2,90,true,Collections.emptyList(),new ArrayList<>());
 
         return Stream.of(
                 new Reservation(1L, LocalDateTime.now(), LocalDateTime.now().plusHours(1), true, room,user),

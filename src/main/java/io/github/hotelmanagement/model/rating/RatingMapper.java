@@ -22,7 +22,7 @@ public class RatingMapper {
 
         return RatingRoom.builder()
                 .id(ratingRoomDTO.id())
-                .stars(ratingRoomDTO.stars())
+                .ratingStars(new RatingStars(ratingRoomDTO.stars()))
                 .comment(ratingRoomDTO.comment())
                 .room(room)
                 .user(user)
@@ -41,7 +41,7 @@ public class RatingMapper {
 
         return RatingRoomDTO.builder()
                 .id(ratingRoom.getId())
-                .stars(ratingRoom.getStars())
+                .stars(ratingRoom.getRatingStars().getStars())
                 .comment(ratingRoom.getComment())
                 .roomDTO(roomDTO)
                 .userDTO(userDTO)
