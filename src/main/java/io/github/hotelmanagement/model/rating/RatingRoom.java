@@ -19,6 +19,7 @@ public class RatingRoom {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private RatingStars ratingStars;
     @NonNull
     private int stars;
     private String comment;

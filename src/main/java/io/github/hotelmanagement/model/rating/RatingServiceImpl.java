@@ -41,12 +41,13 @@ public class RatingServiceImpl implements RatingService{
 
         RatingRoom rating = RatingRoom.builder()
                 .id(ratingRoomDTO.id())
+                .ratingStars(new RatingStars(ratingRoomDTO.stars()))
                 .stars(ratingRoomDTO.stars())
                 .comment(ratingRoomDTO.comment())
                 .room(room)
                 .user(user)
                 .build();
-
+      
         checkCorrectRate(RatingMapper.entityToDTO(rating));
         roomRatings.add(rating);
         userRatings.add(rating);

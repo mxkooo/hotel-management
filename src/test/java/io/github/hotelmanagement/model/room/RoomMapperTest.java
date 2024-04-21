@@ -25,6 +25,8 @@ class RoomMapperTest {
 
     private static Stream<Room> roomWithReservationsProvider() {
         return Stream.of(
+                new Room(1L, 1, 1, 1, false,null,null),
+                new Room(1L, 2, 2, 2, true,null,null)
                 new Room(1L, 1, 1, 1, false,null),
                 new Room(1L, 2, 2, 2, true,null)
         );
