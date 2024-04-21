@@ -1,6 +1,9 @@
 package io.github.hotelmanagement.model.rating;
 
 import io.github.hotelmanagement.model.reservation.Reservation;
+import io.github.hotelmanagement.model.reservation.ReservationDTO;
+import io.github.hotelmanagement.model.reservation.ReservationMapper;
+import io.github.hotelmanagement.model.reservation.ReservationService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import io.github.hotelmanagement.model.user.User;
@@ -8,6 +11,7 @@ import io.github.hotelmanagement.model.room.Room;
 import io.github.hotelmanagement.model.user.UserService;
 import io.github.hotelmanagement.model.room.RoomService;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -38,12 +42,13 @@ public class RatingServiceImpl implements RatingService{
         RatingRoom rating = RatingRoom.builder()
                 .id(ratingRoomDTO.id())
                 .ratingStars(new RatingStars(ratingRoomDTO.stars()))
+                .stars(ratingRoomDTO.stars())
                 .comment(ratingRoomDTO.comment())
                 .room(room)
                 .user(user)
                 .build();
-
-
+      
+        checkCorrectRate(RatingMapper.entityToDTO(rating));
         roomRatings.add(rating);
         userRatings.add(rating);
         return RatingMapper.entityToDTO(ratingRepository.save(rating));
@@ -53,5 +58,10 @@ public class RatingServiceImpl implements RatingService{
                 .stream()
                 .anyMatch(rating -> rating.getRoom().getId().equals(roomId));
 
+    }
+    void checkCorrectRate(RatingRoomDTO rating) throws Exception {
+        if (rating.stars()> 5 || rating.stars() <1 && rating.comment().length() > 250){
+            throw new Exception("Ratings are 1-5 and comments are max 250 signs");
+        }
     }
 }

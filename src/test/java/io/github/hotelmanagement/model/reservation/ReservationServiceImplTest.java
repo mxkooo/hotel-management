@@ -30,6 +30,8 @@ class ReservationServiceImplTest {
     static ReservationRequest reservationRequest = new ReservationRequest(START_RESERVATION, END_RESERVATION, BED_AMOUNT);
     static Room room = new Room(1L, 260, BED_AMOUNT, 4, false, new ArrayList<>(),new ArrayList<>());
     static User user = new User(1L, "Jan", "Nowak", new ArrayList<>(),new ArrayList<>());
+    static Room room = new Room(1L, 260, BED_AMOUNT, 4, false, new ArrayList<>());
+    static User user = new User(1L, "Jan", "Nowak", new ArrayList<>());
 
     @BeforeEach
     void prepare() {

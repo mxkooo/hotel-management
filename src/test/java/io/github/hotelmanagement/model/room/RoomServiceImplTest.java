@@ -6,10 +6,12 @@ import io.github.hotelmanagement.model.reservation.Reservation;
 import io.github.hotelmanagement.model.room.exception.GetAvailableRoomException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentMatcher;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -108,6 +110,7 @@ class RoomServiceImplTest {
     void createRoom(){
         //given
         RoomDTO roomDTO = new RoomDTO(1L, Price.countPrice(BED_AMOUNT),BED_AMOUNT,6,false, new ArrayList<>(),new ArrayList<>());
+        RoomDTO roomDTO = new RoomDTO(1L, Price.countPrice(BED_AMOUNT),BED_AMOUNT,6,false, new ArrayList<>());
 
         Room created = new Room();
         created.setId(1L);
@@ -137,6 +140,7 @@ class RoomServiceImplTest {
     void updateRoom() throws NotFoundException{
         //given
         Room toUpdate = new Room(1L,Price.countPrice(BED_AMOUNT),BED_AMOUNT,4,false, new ArrayList<>(),new ArrayList<>());
+        Room toUpdate = new Room(1L,Price.countPrice(BED_AMOUNT),BED_AMOUNT,4,false, new ArrayList<>());
 
         when(roomRepository.findById(1L)).thenReturn(Optional.of(toUpdate));
         when(roomRepository.save(any(Room.class))).thenAnswer(invocation -> invocation.getArgument(0));
