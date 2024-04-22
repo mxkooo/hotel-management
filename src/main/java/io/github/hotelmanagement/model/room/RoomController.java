@@ -2,10 +2,7 @@ package io.github.hotelmanagement.model.room;
 
 import io.github.hotelmanagement.model.user.UserDTO;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
@@ -17,5 +14,9 @@ public class RoomController {
     @PostMapping(RoutesRoom.POST)
     RoomDTO crateRoom(@RequestBody RoomDTO roomDTO){
        return roomService.createRoom(roomDTO);
+    }
+    @DeleteMapping(RoutesRoom.DELETE + "/{roomId}")
+    void deleteRoom(@PathVariable Long roomId) throws Exception{
+        roomService.deleteById(roomId);
     }
 }
