@@ -42,7 +42,6 @@ public class RatingServiceImpl implements RatingService{
         RatingRoom rating = RatingRoom.builder()
                 .id(ratingRoomDTO.id())
                 .ratingStars(new RatingStars(ratingRoomDTO.stars()))
-                .stars(ratingRoomDTO.stars())
                 .comment(ratingRoomDTO.comment())
                 .room(room)
                 .user(user)

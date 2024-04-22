@@ -72,7 +72,6 @@ public class UserMapper {
                 .map(dto -> RatingRoom.builder()
                         .id(dto.id())
                         .ratingStars(new RatingStars(dto.stars()))
-                        .stars(dto.stars())
                         .comment(dto.comment())
                         .room(null)
                         .user(null).build())
