@@ -9,4 +9,5 @@ public interface RoomService {
     Room getAvailableRoom(final LocalDateTime startDate, final LocalDateTime endDate, final int bedAmount);
     RoomDTO updateRoom(Long id, Room toUpdate) throws NotFoundException;
     RoomDTO createRoom(RoomDTO roomDTO);
+    void deleteById(Long roomId) throws Exception;
 }
