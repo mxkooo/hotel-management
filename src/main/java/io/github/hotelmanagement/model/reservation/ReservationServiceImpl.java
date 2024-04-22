@@ -31,7 +31,7 @@ public class ReservationServiceImpl implements ReservationService {
     @Transactional
     public ReservationDTO createReservation(ReservationRequest request, @NonNull Long userId){
 
-        if (request.startReservation().isBefore(LocalDateTime.now())){
+        if (request.startReservation().isBefore(LocalDateTime.now()) || request.endReservation().isBefore(request.startReservation())){
             throw new IllegalArgumentException();
         }
 

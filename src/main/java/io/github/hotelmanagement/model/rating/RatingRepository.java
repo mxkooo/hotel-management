@@ -5,4 +5,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface RatingRepository extends JpaRepository<RatingRoom, Long> {
     @Override
     <S extends RatingRoom> S save(S entity);
+
+    @Override
+    void deleteById(Long aLong);
+
+    @Override
+    boolean existsById(Long aLong);
 }

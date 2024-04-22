@@ -13,4 +13,9 @@ public class RatingController {
     public RatingRoomDTO rateRoom(@RequestBody RatingRoomDTO ratingRoomDTO, @PathVariable Long roomId, @PathVariable Long userId) throws Exception{
         return ratingService.rateRoom(ratingRoomDTO, roomId, userId);
     }
+
+    @DeleteMapping(RoutesRating.DELETE + "/{rateId}")
+    public void deleteRate(Long rateId) throws Exception{
+        ratingService.deleteRate(rateId);
+    }
 }

@@ -42,7 +42,6 @@ public class RatingServiceImpl implements RatingService{
         RatingRoom rating = RatingRoom.builder()
                 .id(ratingRoomDTO.id())
                 .ratingStars(new RatingStars(ratingRoomDTO.stars()))
-                .stars(ratingRoomDTO.stars())
                 .comment(ratingRoomDTO.comment())
                 .room(room)
                 .user(user)
@@ -63,5 +62,13 @@ public class RatingServiceImpl implements RatingService{
         if (rating.stars()> 5 || rating.stars() <1 && rating.comment().length() > 250){
             throw new Exception("Ratings are 1-5 and comments are max 250 signs");
         }
+    }
+
+    @Override
+    public void deleteRate(Long rateId) throws Exception {
+        if (!ratingRepository.existsById(rateId)) {
+            throw new Exception("Rating with this id doesn't exist");
+        }
+        ratingRepository.deleteById(rateId);
     }
 }
