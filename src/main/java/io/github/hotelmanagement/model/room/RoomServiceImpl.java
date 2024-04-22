@@ -93,5 +93,11 @@ class RoomServiceImpl implements RoomService {
     public Room getRoomById(Long roomId){
         return roomRepository.findById(roomId).orElseThrow(() -> new NotFoundException("room not found"));
     }
+    public void deleteById(Long roomId) throws Exception{
+        if (!roomRepository.existsById(roomId)){
+            throw new Exception("Room doesn't exist");
+        }
+        roomRepository.deleteById(roomId);
+    }
 
 }
