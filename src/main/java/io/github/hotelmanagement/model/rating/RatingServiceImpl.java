@@ -64,11 +64,10 @@ public class RatingServiceImpl implements RatingService{
         }
     }
 
-    @Override
-    public void deleteRate(Long rateId) throws Exception {
-        if (!ratingRepository.existsById(rateId)) {
-            throw new Exception("Rating with this id doesn't exist");
+    public void deleteById(Long roomId) throws Exception{
+        if (!ratingRepository.existsById(roomId)){
+            throw new Exception("Room doesn't exist");
         }
-        ratingRepository.deleteById(rateId);
+        ratingRepository.deleteById(roomId);
     }
 }

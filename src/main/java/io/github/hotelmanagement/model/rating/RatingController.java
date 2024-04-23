@@ -15,7 +15,7 @@ public class RatingController {
     }
 
     @DeleteMapping(RoutesRating.DELETE + "/{rateId}")
-    public void deleteRate(Long rateId) throws Exception{
-        ratingService.deleteRate(rateId);
+    public void deleteRate(@PathVariable Long rateId) throws Exception{
+        ratingService.deleteById(rateId);
     }
 }
