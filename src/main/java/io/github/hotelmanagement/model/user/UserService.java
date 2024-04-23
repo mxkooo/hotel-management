@@ -9,4 +9,5 @@ public interface UserService {
     UserDTO createUser(UserDTO userDTO);
     User getUser(Long userId);
     boolean isWasUserGuest(List<Reservation> reservations, User user) throws Exception;
+    void deleteById(Long userId) throws Exception;
 }

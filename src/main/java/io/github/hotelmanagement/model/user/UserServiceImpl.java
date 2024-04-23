@@ -28,5 +28,10 @@ public class UserServiceImpl implements UserService{
                 .stream()
                 .anyMatch(r -> r.getUser().equals(user));
     }
+    public void deleteById(Long userId) throws Exception{
+        if (!userRepository.existsById(userId))
+            throw new Exception("User doesn't exist");
+        userRepository.deleteById(userId);
+    }
 
 }
