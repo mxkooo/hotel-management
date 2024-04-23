@@ -63,4 +63,11 @@ public class RatingServiceImpl implements RatingService{
             throw new Exception("Ratings are 1-5 and comments are max 250 signs");
         }
     }
+
+    public void deleteById(Long roomId) throws Exception{
+        if (!ratingRepository.existsById(roomId)){
+            throw new Exception("Room doesn't exist");
+        }
+        ratingRepository.deleteById(roomId);
+    }
 }
