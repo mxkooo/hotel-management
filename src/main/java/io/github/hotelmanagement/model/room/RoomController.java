@@ -1,8 +1,11 @@
 package io.github.hotelmanagement.model.room;
 
-import io.github.hotelmanagement.model.user.UserDTO;
+
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
@@ -12,11 +15,22 @@ public class RoomController {
     private RoomService roomService;
 
     @PostMapping(RoutesRoom.POST)
-    RoomDTO crateRoom(@RequestBody RoomDTO roomDTO){
+    public RoomDTO crateRoom(@RequestBody RoomDTO roomDTO){
        return roomService.createRoom(roomDTO);
     }
     @DeleteMapping(RoutesRoom.DELETE + "/{roomId}")
-    void deleteRoom(@PathVariable Long roomId) throws Exception{
+    public void deleteRoom(@PathVariable Long roomId) throws Exception{
         roomService.deleteById(roomId);
     }
+
+    @GetMapping(RoutesRoom.GET + "/{roomId}")
+    public Optional<Room> findById(@PathVariable Long roomId) throws Exception{
+        return roomService.findById(roomId);
+    }
+
+    @GetMapping(RoutesRoom.GET + "/all")
+    public List<Room> getAllRooms(){
+        return roomService.getAllRooms();
+    }
+
 }

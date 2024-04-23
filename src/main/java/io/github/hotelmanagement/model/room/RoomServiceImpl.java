@@ -13,6 +13,7 @@ import io.github.hotelmanagement.model.room.exception.GetAvailableRoomException;
 import java.util.List;
 import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -98,6 +99,15 @@ class RoomServiceImpl implements RoomService {
             throw new Exception("Room doesn't exist");
         }
         roomRepository.deleteById(roomId);
+    }
+    public List<Room> getAllRooms(){
+        return roomRepository.findAll();
+    }
+    public Optional<Room> findById(Long roomId) throws Exception{
+        if (!roomRepository.existsById(roomId))
+            throw new Exception("Room with this id doesn't exist");
+
+        return roomRepository.findById(roomId);
     }
 
 }
