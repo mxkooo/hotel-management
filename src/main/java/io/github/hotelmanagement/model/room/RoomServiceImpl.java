@@ -81,11 +81,10 @@ class RoomServiceImpl implements RoomService {
             throw new RuntimeException(e);
         }
 
-        room.setId(toUpdate.getId());
         room.setReserved(toUpdate.isReserved());
         room.setReservations(toUpdate.getReservations());
         room.setBedAmount(toUpdate.getBedAmount());
-        room.setPricePerNight(toUpdate.getPricePerNight());
+        room.setPricePerNight(Price.countPrice(toUpdate.getBedAmount()));
         room.setMaxPeopleInside(toUpdate.getMaxPeopleInside());
         return RoomMapper.entityToDTO(roomRepository.save(room));
     }
