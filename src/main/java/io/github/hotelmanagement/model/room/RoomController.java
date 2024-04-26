@@ -1,6 +1,5 @@
 package io.github.hotelmanagement.model.room;
 
-import io.github.hotelmanagement.model.exception.NotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,8 +20,8 @@ public class RoomController {
     void deleteRoom(@PathVariable Long roomId) throws Exception{
         roomService.deleteById(roomId);
     }
-    @PatchMapping(RoutesRoom.UPDATE + "/{roomId}")
-    RoomDTO updateRoom(@PathVariable Long roomId, @RequestBody @Valid RoomDTO toUpdate) throws NotFoundException{
+    @PutMapping(RoutesRoom.UPDATE + "/{roomId}")
+    RoomDTO updateRoom(@PathVariable Long roomId, @RequestBody @Valid RoomDTO toUpdate){
         return roomService.updateRoom(roomId, toUpdate);
     }
 }

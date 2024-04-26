@@ -71,7 +71,7 @@ class RoomServiceImpl implements RoomService {
                                 reservation.getEndReservation().isBefore(endDate));
     }
 
-    public RoomDTO updateRoom(Long id, RoomDTO toUpdate) throws NotFoundException {
+    public RoomDTO updateRoom(Long id, RoomDTO toUpdate){
 
         if (!roomRepository.existsById(id)){
             throw new NotFoundException("Room doesn't exist");
