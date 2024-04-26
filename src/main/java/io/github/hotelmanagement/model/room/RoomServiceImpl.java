@@ -100,10 +100,10 @@ class RoomServiceImpl implements RoomService {
         }
         roomRepository.deleteById(roomId);
     }
-    public List<Room> getAllRooms(){
+    public List<RoomDTO> getAllRooms(){
         return roomRepository.findAll();
     }
-    public Optional<Room> findById(Long roomId) throws Exception{
+    public Optional<RoomDTO> findById(Long roomId) throws Exception{
         if (!roomRepository.existsById(roomId))
             throw new Exception("Room with this id doesn't exist");
 

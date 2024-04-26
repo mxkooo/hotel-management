@@ -24,12 +24,12 @@ public class RoomController {
     }
 
     @GetMapping(RoutesRoom.GET + "/{roomId}")
-    public Optional<Room> findById(@PathVariable Long roomId) throws Exception{
+    public Optional<RoomDTO> findById(@PathVariable Long roomId) throws Exception{
         return roomService.findById(roomId);
     }
 
     @GetMapping(RoutesRoom.GET + "/all")
-    public List<Room> getAllRooms(){
+    public List<RoomDTO> getAllRooms(){
         return roomService.getAllRooms();
     }
 

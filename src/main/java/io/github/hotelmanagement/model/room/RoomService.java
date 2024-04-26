@@ -12,6 +12,6 @@ public interface RoomService {
     RoomDTO updateRoom(Long id, Room toUpdate) throws NotFoundException;
     RoomDTO createRoom(RoomDTO roomDTO);
     void deleteById(Long roomId) throws Exception;
-    List<Room> getAllRooms();
-    Optional<Room> findById(Long roomId) throws Exception;
+    List<RoomDTO> getAllRooms();
+    Optional<RoomDTO> findById(Long roomId) throws Exception;
 }
