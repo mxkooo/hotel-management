@@ -22,7 +22,7 @@ public class RoomController {
         roomService.deleteById(roomId);
     }
     @PatchMapping(RoutesRoom.UPDATE + "/{roomId}")
-    RoomDTO updateRoom(@PathVariable Long roomId, @RequestBody @Valid Room toUpdate) throws NotFoundException{
+    RoomDTO updateRoom(@PathVariable Long roomId, @RequestBody @Valid RoomDTO toUpdate) throws NotFoundException{
         return roomService.updateRoom(roomId, toUpdate);
     }
 }
