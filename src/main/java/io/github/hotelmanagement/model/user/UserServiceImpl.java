@@ -20,6 +20,21 @@ public class UserServiceImpl implements UserService{
         user.setLastName(userDTO.lastName());
         return UserMapper.mapToDTO(userRepository.save(user));
     }
+    public UserDTO updateUser(Long id, UserDTO toUpdate) {
+        if (!userRepository.existsById(id)){
+            throw new NotFoundException("User doesn't exist");
+        }
+        UserDTO userDTO = UserDTO.builder()
+                .id(id)
+                .name(toUpdate.name())
+                .lastName(toUpdate.lastName())
+                .reservationDTOS(toUpdate.reservationDTOS())
+                .ratingsDTOS(toUpdate.ratingsDTOS())
+                .build();
+
+        var user = UserMapper.mapToEntity(userDTO);
+        return UserMapper.mapToDTO(userRepository.save(user));
+    }
     public User getUser(Long userId){
         return userRepository.findById(userId).orElseThrow(() -> new NotFoundException("user not found"));
     }
