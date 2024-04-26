@@ -144,8 +144,8 @@ class RoomServiceImplTest {
 
         when(roomRepository.findById(1L)).thenReturn(Optional.of(toUpdate));
         when(roomRepository.save(any(Room.class))).thenAnswer(invocation -> invocation.getArgument(0));
-
-        RoomDTO updated = roomService.updateRoom(1L, toUpdate);
+        var room = RoomMapper.entityToDTO(toUpdate);
+        RoomDTO updated = roomService.updateRoom(1L, room);
         assertEquals(toUpdate.getId(), updated.id());
         assertNotNull(toUpdate);
         assertNotNull(updated);
