@@ -19,7 +19,6 @@ import java.util.List;
 @AllArgsConstructor
 public class RatingServiceImpl implements RatingService{
     private UserService userService;
-    @Lazy
     private RoomService roomService;
     private RatingRepository ratingRepository;
 
