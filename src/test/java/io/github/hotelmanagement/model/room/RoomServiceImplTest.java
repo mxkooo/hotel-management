@@ -139,7 +139,7 @@ class RoomServiceImplTest {
     @Test
     void updateRoom() throws NotFoundException{
         //given
-        RoomD toUpdate = new Room(1L,Price.countPrice(BED_AMOUNT),BED_AMOUNT,4,false, new ArrayList<>(),new ArrayList<>());
+        Room toUpdate = new Room(1L,Price.countPrice(BED_AMOUNT),BED_AMOUNT,4,false, new ArrayList<>(),new ArrayList<>());
         Room toUpdate1 = new Room(1L,Price.countPrice(BED_AMOUNT),BED_AMOUNT,4,false, new ArrayList<>(), new ArrayList<>());
 
         when(roomRepository.findById(1L)).thenReturn(Optional.of(toUpdate));

@@ -76,16 +76,14 @@ class RoomServiceImpl implements RoomService {
         if (!roomRepository.existsById(id)){
             throw new NotFoundException("Room doesn't exist");
         }
-        RoomDTO roomDTO = RoomDTO.builder()
-                .id(id)
-                .reservationDTOS(toUpdate.reservationDTOS())
-                .isReserved(toUpdate.isReserved())
-                .bedAmount(toUpdate.bedAmount())
-                .pricePerNight(Price.countPrice(toUpdate.bedAmount()))
-                .maxPeopleInside(toUpdate.maxPeopleInside())
-                .build();
+        Room room = new Room();
+        room.setId(toUpdate.id());
+        room.setBedAmount(toUpdate.bedAmount());
+        room.setMaxPeopleInside(toUpdate.maxPeopleInside());
+        room.setReserved(toUpdate.isReserved());
+        room.setPricePerNight(Price.countPrice(toUpdate.bedAmount()));
 
-        var room = RoomMapper.mapToEntity(roomDTO);
+        var roomDTO = RoomMapper.entityToDTO(room);
         return RoomMapper.entityToDTO(roomRepository.save(room));
     }
 
