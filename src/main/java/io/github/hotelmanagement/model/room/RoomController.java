@@ -24,7 +24,7 @@ public class RoomController {
     }
 
     @GetMapping(RoutesRoom.GET + "/{roomId}")
-    public Optional<RoomDTO> findById(@PathVariable Long roomId) throws Exception{
+    public Optional<RoomDTO> findById(@PathVariable Long roomId){
         return roomService.findById(roomId);
     }
 

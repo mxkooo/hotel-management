@@ -20,6 +20,7 @@ import java.util.Optional;
 class RoomServiceImpl implements RoomService {
 
     private final RoomRepository roomRepository;
+    private final RoomService service;
     private static final Logger logger = LoggerFactory.getLogger(RoomServiceImpl.class);
 
     public RoomDTO createRoom(RoomDTO roomDTO) {
@@ -101,13 +102,18 @@ class RoomServiceImpl implements RoomService {
         roomRepository.deleteById(roomId);
     }
     public List<RoomDTO> getAllRooms(){
-        return roomRepository.findAll();
+        List<Room> rooms = roomRepository.findAll();
+        return rooms.stream()
+                .map(RoomMapper::entityToDTO)
+                .toList();
     }
-    public Optional<RoomDTO> findById(Long roomId) throws Exception{
+    public Optional<RoomDTO> findById(Long roomId){
         if (!roomRepository.existsById(roomId))
-            throw new Exception("Room with this id doesn't exist");
+            throw new NotFoundException("Room with this id doesn't exist");
 
-        return roomRepository.findById(roomId);
+        Optional<Room> room = roomRepository.findById(roomId);
+
+        return Optional.ofNullable(RoomMapper.entityToDTO(room));
     }
 
 }
