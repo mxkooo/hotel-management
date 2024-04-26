@@ -20,7 +20,6 @@ import java.util.Optional;
 class RoomServiceImpl implements RoomService {
 
     private final RoomRepository roomRepository;
-    private final RoomService service;
     private static final Logger logger = LoggerFactory.getLogger(RoomServiceImpl.class);
 
     public RoomDTO createRoom(RoomDTO roomDTO) {
@@ -111,7 +110,7 @@ class RoomServiceImpl implements RoomService {
         if (!roomRepository.existsById(roomId))
             throw new NotFoundException("Room with this id doesn't exist");
 
-        Optional<Room> room = roomRepository.findById(roomId);
+        Room room = roomRepository.findById(roomId).orElseThrow();
 
         return Optional.ofNullable(RoomMapper.entityToDTO(room));
     }

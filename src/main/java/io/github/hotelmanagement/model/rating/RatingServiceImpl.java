@@ -5,6 +5,7 @@ import io.github.hotelmanagement.model.reservation.ReservationDTO;
 import io.github.hotelmanagement.model.reservation.ReservationMapper;
 import io.github.hotelmanagement.model.reservation.ReservationService;
 import lombok.AllArgsConstructor;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import io.github.hotelmanagement.model.user.User;
 import io.github.hotelmanagement.model.room.Room;
@@ -18,6 +19,7 @@ import java.util.List;
 @AllArgsConstructor
 public class RatingServiceImpl implements RatingService{
     private UserService userService;
+    @Lazy
     private RoomService roomService;
     private RatingRepository ratingRepository;
 
