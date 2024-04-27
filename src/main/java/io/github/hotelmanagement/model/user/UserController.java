@@ -3,10 +3,10 @@ package io.github.hotelmanagement.model.user;
 
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -19,4 +19,13 @@ public class UserController {
     public UserDTO createUser(@RequestBody @Validated UserDTO userDTO){
         return userService.createUser(userDTO);
     }
+    @GetMapping(RoutesUser.GET + "/all")
+    public List<UserDTO> getAllUsers(){
+        return userService.getAllUsers();
+    }
+    @GetMapping(RoutesUser.GET + "/{userId}")
+    public Optional<UserDTO> findById(@PathVariable Long userId){
+        return userService.findById(userId);
+    }
+
 }
