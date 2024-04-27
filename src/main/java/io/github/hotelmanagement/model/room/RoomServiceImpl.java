@@ -12,12 +12,14 @@ import io.github.hotelmanagement.model.room.exception.GetAvailableRoomException;
 import java.util.List;
 import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 class RoomServiceImpl implements RoomService {
 
     private final RoomRepository roomRepository;
+
     private static final Logger logger = LoggerFactory.getLogger(RoomServiceImpl.class);
 
     public RoomDTO createRoom(RoomDTO roomDTO) {
@@ -71,20 +73,18 @@ class RoomServiceImpl implements RoomService {
                                 reservation.getEndReservation().isBefore(endDate));
     }
 
-    public RoomDTO updateRoom(Long id, RoomDTO toUpdate){
+    public RoomDTO updateRoom(Long roomId, RoomDTO toUpdate){
 
-        if (!roomRepository.existsById(id)){
+        if (!roomRepository.existsById(roomId)){
             throw new NotFoundException("Room doesn't exist");
         }
-        Room room = new Room();
-        room.setId(toUpdate.id());
+        Room room = getRoomById(roomId);
         room.setBedAmount(toUpdate.bedAmount());
         room.setMaxPeopleInside(toUpdate.maxPeopleInside());
         room.setReserved(toUpdate.isReserved());
         room.setPricePerNight(Price.countPrice(toUpdate.bedAmount()));
 
-        var roomDTO = RoomMapper.entityToDTO(room);
-        return RoomMapper.entityToDTO(roomRepository.save(room));
+        return RoomMapper.entityToDTO(room);
     }
 
     public Room getRoomById(Long roomId){

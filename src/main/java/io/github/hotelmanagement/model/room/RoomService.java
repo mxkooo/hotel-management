@@ -1,7 +1,5 @@
 package io.github.hotelmanagement.model.room;
 
-import io.github.hotelmanagement.model.exception.NotFoundException;
-
 import java.time.LocalDateTime;
 
 public interface RoomService {
