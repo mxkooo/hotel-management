@@ -36,9 +36,6 @@ public class UserServiceImpl implements UserService{
                 .toList();
     }
     public Optional<UserDTO> findById(Long userId){
-        if (!userRepository.existsById(userId))
-            throw new NotFoundException("User with this id doesn't exist");
-
         User user = userRepository.findById(userId).orElseThrow();
 
         return Optional.ofNullable(UserMapper.mapToDTO(user));
