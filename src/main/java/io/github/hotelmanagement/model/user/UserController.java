@@ -24,8 +24,8 @@ public class UserController {
         return userService.getAllUsers();
     }
     @GetMapping(RoutesUser.GET + "/{userId}")
-    public Optional<UserDTO> findById(@PathVariable Long userId){
-        return userService.findById(userId);
+    public UserDTO findById(@PathVariable Long userId){
+        return userService.findUserById(userId);
     }
 
 }

@@ -35,10 +35,10 @@ public class UserServiceImpl implements UserService{
                 .map(UserMapper::mapToDTO)
                 .toList();
     }
-    public Optional<UserDTO> findById(Long userId){
+    public UserDTO findUserById(Long userId){
         User user = userRepository.findById(userId).orElseThrow();
 
-        return Optional.ofNullable(UserMapper.mapToDTO(user));
+        return (UserMapper.mapToDTO(user));
     }
 
 }

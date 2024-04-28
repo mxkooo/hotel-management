@@ -11,5 +11,5 @@ public interface UserService {
     User getUser(Long userId);
     boolean isWasUserGuest(List<Reservation> reservations, User user) throws Exception;
     List<UserDTO> getAllUsers();
-    Optional<UserDTO> findById(Long userId);
+    UserDTO findUserById(Long userId);
 }
