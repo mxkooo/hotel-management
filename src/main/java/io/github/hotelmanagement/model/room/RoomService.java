@@ -11,5 +11,5 @@ public interface RoomService {
     RoomDTO createRoom(RoomDTO roomDTO);
     void deleteById(Long roomId) throws Exception;
     List<RoomDTO> getAllRooms();
-    Optional<RoomDTO> findById(Long roomId) ;
+    RoomDTO findById(Long roomId) ;
 }

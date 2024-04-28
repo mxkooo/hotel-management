@@ -106,13 +106,10 @@ class RoomServiceImpl implements RoomService {
                 .map(RoomMapper::entityToDTO)
                 .toList();
     }
-    public Optional<RoomDTO> findById(Long roomId){
-        if (!roomRepository.existsById(roomId))
-            throw new NotFoundException("Room with this id doesn't exist");
-
+    public RoomDTO findById(Long roomId){
         Room room = roomRepository.findById(roomId).orElseThrow();
 
-        return Optional.ofNullable(RoomMapper.entityToDTO(room));
+        return RoomMapper.entityToDTO(room);
     }
 
 }

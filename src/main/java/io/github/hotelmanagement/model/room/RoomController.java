@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
@@ -24,7 +23,7 @@ public class RoomController {
     }
 
     @GetMapping(RoutesRoom.GET + "/{roomId}")
-    public Optional<RoomDTO> findById(@PathVariable Long roomId){
+    public RoomDTO findById(@PathVariable Long roomId){
         return roomService.findById(roomId);
     }
 
