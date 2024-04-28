@@ -21,9 +21,6 @@ public class UserServiceImpl implements UserService{
         return UserMapper.mapToDTO(userRepository.save(user));
     }
     public UserDTO updateUser(Long userId, UserDTO toUpdate) {
-        if (!userRepository.existsById(userId)){
-            throw new NotFoundException("User doesn't exist");
-        }
         User user = getUser(userId);
         user.setId(userId);
         user.setName(toUpdate.name());
