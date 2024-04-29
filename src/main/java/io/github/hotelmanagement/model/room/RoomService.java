@@ -7,7 +7,7 @@ import java.util.Optional;
 public interface RoomService {
     Room getRoomById(Long roomId);
     Room getAvailableRoom(final LocalDateTime startDate, final LocalDateTime endDate, final int bedAmount);
-    RoomDTO updateRoom(Long id, Room toUpdate);
+    RoomDTO updateRoom(Long id, RoomDTO toUpdate);
     RoomDTO createRoom(RoomDTO roomDTO);
     void deleteById(Long roomId) throws Exception;
     List<RoomDTO> getAllRooms();

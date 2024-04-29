@@ -23,6 +23,5 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     @Override
     List<Room> findAll();
 
-    @Override
-    Optional<Room> findById(Long aLong);
+
 }
