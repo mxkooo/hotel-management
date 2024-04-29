@@ -20,6 +20,14 @@ public class UserServiceImpl implements UserService{
         user.setLastName(userDTO.lastName());
         return UserMapper.mapToDTO(userRepository.save(user));
     }
+    public UserDTO updateUser(Long userId, UserDTO toUpdate) {
+        User user = getUser(userId);
+        user.setId(userId);
+        user.setName(toUpdate.name());
+        user.setLastName(toUpdate.lastName());
+
+        return UserMapper.mapToDTO(user);
+    }
     public User getUser(Long userId){
         return userRepository.findById(userId).orElseThrow(() -> new NotFoundException("user not found"));
     }

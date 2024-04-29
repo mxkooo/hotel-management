@@ -8,6 +8,7 @@ import java.util.Optional;
 
 public interface UserService {
     UserDTO createUser(UserDTO userDTO);
+    UserDTO updateUser(Long id, UserDTO toUpdate);
     User getUser(Long userId);
     boolean isWasUserGuest(List<Reservation> reservations, User user) throws Exception;
     List<UserDTO> getAllUsers();
