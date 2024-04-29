@@ -2,16 +2,16 @@ package io.github.hotelmanagement.model.room;
 
 import io.github.hotelmanagement.model.exception.NotFoundException;
 import io.github.hotelmanagement.model.price.Price;
+import io.github.hotelmanagement.model.rating.RatingRoom;
+import io.github.hotelmanagement.model.rating.RatingStars;
 import io.github.hotelmanagement.model.reservation.Reservation;
 import io.github.hotelmanagement.model.room.exception.GetAvailableRoomException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentMatcher;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -110,7 +110,7 @@ class RoomServiceImplTest {
     void createRoom(){
         //given
         RoomDTO roomDTO = new RoomDTO(1L, Price.countPrice(BED_AMOUNT),BED_AMOUNT,6,false, new ArrayList<>(),new ArrayList<>());
-        RoomDTO roomDTO = new RoomDTO(1L, Price.countPrice(BED_AMOUNT),BED_AMOUNT,6,false, new ArrayList<>());
+
 
         Room created = new Room();
         created.setId(1L);
@@ -140,7 +140,6 @@ class RoomServiceImplTest {
     void updateRoom() throws NotFoundException{
         //given
         Room toUpdate = new Room(1L,Price.countPrice(BED_AMOUNT),BED_AMOUNT,4,false, new ArrayList<>(),new ArrayList<>());
-        Room toUpdate1 = new Room(1L,Price.countPrice(BED_AMOUNT),BED_AMOUNT,4,false, new ArrayList<>(), new ArrayList<>());
 
         when(roomRepository.findById(1L)).thenReturn(Optional.of(toUpdate));
         when(roomRepository.save(any(Room.class))).thenAnswer(invocation -> invocation.getArgument(0));
@@ -153,5 +152,44 @@ class RoomServiceImplTest {
 
         verify(roomRepository).findById(1L);
         verify(roomRepository).save(any(Room.class));
+    }
+
+    @Test
+    void getRoomByAverageStar_whenRatingStarInRange(){
+        //given
+        final double averageStar = 2;
+
+        Room room = new Room(1L,Price.countPrice(BED_AMOUNT),BED_AMOUNT,4,false, new ArrayList<>(),new ArrayList<>());
+
+        RatingRoom ratingRoom1 = new RatingRoom(1L,new RatingStars(1),"",room,null);
+        RatingRoom ratingRoom2 = new RatingRoom(1L,new RatingStars(5),"",room,null);
+        room.getRatings().add(ratingRoom1);
+        room.getRatings().add(ratingRoom2);
+
+        when(roomRepository.findAll()).thenReturn(List.of(room));
+
+        //when
+        RoomDTO roomDTO = roomService.getRoomByAverageStars(averageStar);
+
+        //then
+        assertNotNull(roomDTO);
+    }
+
+    @Test
+    void throwException_whenGetRoomByAverageStar_andAverageStarIsOutRange(){
+        //given
+        final double averageStar = 3;
+
+        Room room = new Room(1L,Price.countPrice(BED_AMOUNT),BED_AMOUNT,4,false, new ArrayList<>(),new ArrayList<>());
+
+        RatingRoom ratingRoom1 = new RatingRoom(1L,new RatingStars(1),"",room,null);
+        RatingRoom ratingRoom2 = new RatingRoom(1L,new RatingStars(1),"",room,null);
+        room.getRatings().add(ratingRoom1);
+        room.getRatings().add(ratingRoom2);
+
+        when(roomRepository.findAll()).thenReturn(List.of(room));
+
+        //then
+        assertThrows(NotFoundException.class, () -> roomService.getRoomByAverageStars(averageStar));
     }
 }
