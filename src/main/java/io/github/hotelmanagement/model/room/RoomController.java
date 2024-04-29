@@ -1,12 +1,9 @@
 package io.github.hotelmanagement.model.room;
 
-
-
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import javax.validation.Valid;
-
 
 @RestController
 @AllArgsConstructor
@@ -34,10 +31,14 @@ public class RoomController {
     public List<RoomDTO> getAllRooms(){
         return roomService.getAllRooms();
     }
-  
+
     @PutMapping(RoutesRoom.UPDATE + "/{roomId}")
     RoomDTO updateRoom(@PathVariable Long roomId, @RequestBody @Valid RoomDTO toUpdate){
         return roomService.updateRoom(roomId, toUpdate);
     }
 
+    @GetMapping(RoutesRoom.GET)
+    public RoomDTO getRoomByAverage(@RequestParam double averageStar){
+        return roomService.getRoomByAverageStars(averageStar);
+    }
 }
