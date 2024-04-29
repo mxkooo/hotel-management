@@ -18,4 +18,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Override
     <S extends User> boolean exists(Example<S> example);
+
+    @Override
+    void deleteById(Long aLong);
 }

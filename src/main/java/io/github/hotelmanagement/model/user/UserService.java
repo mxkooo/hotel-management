@@ -11,6 +11,8 @@ public interface UserService {
     UserDTO updateUser(Long id, UserDTO toUpdate);
     User getUser(Long userId);
     boolean isWasUserGuest(List<Reservation> reservations, User user) throws Exception;
+    void deleteById(Long userId) throws Exception;
     List<UserDTO> getAllUsers();
     UserDTO findUserById(Long userId);
+
 }

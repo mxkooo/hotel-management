@@ -18,9 +18,15 @@ public class UserController {
         return userService.createUser(userDTO);
     }
 
+    @DeleteMapping(RoutesUser.DELETE + "/{userId}")
+    public void deleteById(@PathVariable Long userId) throws Exception{
+        userService.deleteById(userId);
+    }
+  
     @PutMapping(RoutesUser.UPDATE + "/{userId}")
     public UserDTO updateUser(@PathVariable Long userId, @RequestBody @Validated UserDTO toUpdate){
         return userService.updateUser(userId, toUpdate);
+    }
 
     @GetMapping(RoutesUser.GET + "/all")
     public List<UserDTO> getAllUsers(){
@@ -31,5 +37,4 @@ public class UserController {
     public UserDTO findById(@PathVariable Long userId){
         return userService.findUserById(userId);
     }
-
 }
