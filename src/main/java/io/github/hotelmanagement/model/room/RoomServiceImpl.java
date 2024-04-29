@@ -96,5 +96,16 @@ class RoomServiceImpl implements RoomService {
         }
         roomRepository.deleteById(roomId);
     }
+    public List<RoomDTO> getAllRooms(){
+        List<Room> rooms = roomRepository.findAll();
+        return rooms.stream()
+                .map(RoomMapper::entityToDTO)
+                .toList();
+    }
+    public RoomDTO findById(Long roomId){
+        Room room = roomRepository.findById(roomId).orElseThrow();
+
+        return RoomMapper.entityToDTO(room);
+    }
 
 }
