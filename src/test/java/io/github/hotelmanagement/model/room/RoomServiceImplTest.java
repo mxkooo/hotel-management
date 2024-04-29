@@ -140,12 +140,12 @@ class RoomServiceImplTest {
     void updateRoom() throws NotFoundException{
         //given
         Room toUpdate = new Room(1L,Price.countPrice(BED_AMOUNT),BED_AMOUNT,4,false, new ArrayList<>(),new ArrayList<>());
-        Room toUpdate = new Room(1L,Price.countPrice(BED_AMOUNT),BED_AMOUNT,4,false, new ArrayList<>());
+        Room toUpdate1 = new Room(1L,Price.countPrice(BED_AMOUNT),BED_AMOUNT,4,false, new ArrayList<>(), new ArrayList<>());
 
         when(roomRepository.findById(1L)).thenReturn(Optional.of(toUpdate));
         when(roomRepository.save(any(Room.class))).thenAnswer(invocation -> invocation.getArgument(0));
-
-        RoomDTO updated = roomService.updateRoom(1L, toUpdate);
+        var room = RoomMapper.entityToDTO(toUpdate);
+        RoomDTO updated = roomService.updateRoom(1L, room);
         assertEquals(toUpdate.getId(), updated.id());
         assertNotNull(toUpdate);
         assertNotNull(updated);

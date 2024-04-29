@@ -2,6 +2,7 @@ package io.github.hotelmanagement.model.room;
 
 import io.github.hotelmanagement.model.rating.RatingRoom;
 import io.github.hotelmanagement.model.reservation.Reservation;
+import io.github.hotelmanagement.model.reservation.ReservationDTO;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.lang.NonNull;
