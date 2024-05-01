@@ -53,6 +53,7 @@ public class RatingServiceImpl implements RatingService{
         userRatings.add(rating);
         return RatingMapper.entityToDTO(ratingRepository.save(rating));
     }
+
     boolean isRatedByUser(Long roomId, User user){
         return user.getRatings()
                 .stream()

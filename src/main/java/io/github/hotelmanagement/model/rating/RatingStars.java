@@ -3,6 +3,8 @@ package io.github.hotelmanagement.model.rating;
 import jakarta.persistence.Embeddable;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 @Embeddable
 public class RatingStars {
@@ -27,6 +29,19 @@ public class RatingStars {
             throw new RuntimeException("Rating must have to be in range 1-5!");
         }
         return starValue;
+    }
+
+    public static boolean isInRangeStar(List<RatingRoom> ratingRooms, double minAverage){
+        return getAveragePoint(ratingRooms) >= minAverage;
+    }
+
+    private static Double getAveragePoint(List<RatingRoom> ratingRooms){
+        return ratingRooms.stream()
+                .map(RatingRoom::getRatingStars)
+                .map(RatingStars::getStars)
+                .mapToDouble(Integer::doubleValue)
+                .average()
+                .orElse(0.0);
     }
 
     private boolean isInRange(int starValue){
