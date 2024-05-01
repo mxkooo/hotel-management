@@ -18,7 +18,7 @@ public class ReservationController {
     public String get(){
         return "reservation";
     }
-    @GetMapping(RoutesReservation.GET + "/{userId}")
+    @GetMapping(RoutesReservation.GET + "/user" + "/{userId}")
     public List<ReservationDTO> getAllUserReservations(@PathVariable Long userId) {
         return reservationService.getAllUserReservation(userId);
     }
@@ -31,5 +31,9 @@ public class ReservationController {
     @DeleteMapping(RoutesReservation.CANCEL + "/{id}")
     public void cancelReservation(@PathVariable Long id){
         reservationService.cancelReservation(id);
+    }
+    @GetMapping(RoutesReservation.GET + "/{reservationId}")
+    public ReservationDTO findById(@PathVariable Long reservationId) {
+        return reservationService.findById(reservationId);
     }
 }

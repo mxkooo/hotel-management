@@ -54,7 +54,11 @@ public class ReservationServiceImpl implements ReservationService {
 
         return ReservationMapper.entityToDTO(reservationRepository.save(reservation));
     }
+    public ReservationDTO findById(Long reservationId){
+        Reservation reservation = reservationRepository.findById(reservationId).orElseThrow();
 
+        return ReservationMapper.entityToDTO(reservation);
+    }
     public void cancelReservation(Long reservationId){
         Reservation reservation = reservationRepository.findById(reservationId)
                 .orElseThrow(() -> new NotFoundException("Reservation with given id " + reservationId + " does not exist"));
