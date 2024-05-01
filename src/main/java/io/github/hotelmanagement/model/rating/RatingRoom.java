@@ -11,6 +11,7 @@ import org.springframework.lang.NonNull;
 @Table(name = "RATING")
 @Entity
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
