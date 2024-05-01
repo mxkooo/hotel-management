@@ -1,5 +1,6 @@
 package io.github.hotelmanagement.model.room;
 
+import io.github.hotelmanagement.model.rating.RatingStars;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import lombok.AllArgsConstructor;
@@ -12,7 +13,6 @@ import io.github.hotelmanagement.model.room.exception.GetAvailableRoomException;
 import java.util.List;
 import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -108,4 +108,13 @@ class RoomServiceImpl implements RoomService {
         return RoomMapper.entityToDTO(room);
     }
 
+    public RoomDTO getRoomByAverageStars(double minAverage){
+
+        Room roomInRange = roomRepository.findAll().stream()
+                .filter(room -> RatingStars.isInRangeStar(room.getRatings(),minAverage))
+                .findFirst()
+                .orElseThrow(() -> new NotFoundException("can not find room with average point: " + minAverage));
+
+        return RoomMapper.entityToDTO(roomInRange);
+    }
 }
