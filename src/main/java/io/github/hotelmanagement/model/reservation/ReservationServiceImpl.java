@@ -54,6 +54,22 @@ public class ReservationServiceImpl implements ReservationService {
 
         return ReservationMapper.entityToDTO(reservationRepository.save(reservation));
     }
+    public ReservationDTO updateReservation(Long reservationId, ReservationRequest request, Long userId) {
+        Reservation reservation = reservationRepository.findById(reservationId)
+                .orElseThrow(() -> new NotFoundException("Reservation with given id " + reservationId + " does not exist"));
+
+        cancelReservation(reservationId);
+        User user = userService.getUser(userId);
+
+        Room room = roomService.getAvailableRoom(request.startReservation(), request.endReservation(), request.bedAmount());
+
+        reservation.setStartReservation(reservation.getStartReservation());
+        reservation.setEndReservation(reservation.getEndReservation());
+        reservation.setRoom(room);
+        reservation.setUser(user);
+
+        return ReservationMapper.entityToDTO(reservation);
+    }
 
     public void cancelReservation(Long reservationId){
         Reservation reservation = reservationRepository.findById(reservationId)
