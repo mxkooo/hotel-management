@@ -32,4 +32,10 @@ public class ReservationController {
     public void cancelReservation(@PathVariable Long id){
         reservationService.cancelReservation(id);
     }
+
+    @PutMapping(RoutesReservation.UPDATE + "/{reservationId}" + "/{userId}")
+    public ReservationDTO updateReservation(@PathVariable Long reservationId, @RequestBody ReservationRequest request, @PathVariable Long userId) {
+        return reservationService.updateReservation(reservationId,request,userId);
+    }
+
 }
