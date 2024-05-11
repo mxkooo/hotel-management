@@ -62,15 +62,14 @@ public class ReservationServiceImpl implements ReservationService {
         User user = userService.getUser(userId);
 
         Room room = roomService.getAvailableRoom(request.startReservation(), request.endReservation(), request.bedAmount());
-        Reservation newReservation = new Reservation();
-        newReservation.setId(reservation.getId());
-        newReservation.setStartReservation(request.startReservation());
-        newReservation.setEndReservation(request.endReservation());
-        newReservation.setRoom(room);
-        newReservation.setUser(user);
+        reservation.setId(reservation.getId());
+        reservation.setStartReservation(request.startReservation());
+        reservation.setEndReservation(request.endReservation());
+        reservation.setRoom(room);
+        reservation.setUser(user);
 
-        room.getReservations().add(newReservation);
-        user.getReservations().add(newReservation);
+        room.getReservations().add(reservation);
+        user.getReservations().add(reservation);
 
         return ReservationMapper.entityToDTO(reservation);
     }
