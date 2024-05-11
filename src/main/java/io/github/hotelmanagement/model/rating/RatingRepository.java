@@ -17,6 +17,5 @@ public interface RatingRepository extends JpaRepository<RatingRoom, Long> {
 
     @Override
     Optional<RatingRoom> findById(Long aLong);
-    @Query()
     Optional<RatingRoom> findByIdAndUserId(Long rateId, Long userId);
 }
