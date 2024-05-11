@@ -1,8 +1,10 @@
 package io.github.hotelmanagement.model.rating;
 
+import io.github.hotelmanagement.model.exception.NotFoundException;
 import io.github.hotelmanagement.model.reservation.Reservation;
 import io.github.hotelmanagement.model.room.RoomDTO;
 import io.github.hotelmanagement.model.room.RoomMapper;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import io.github.hotelmanagement.model.user.User;
@@ -20,68 +22,44 @@ public class RatingServiceImpl implements RatingService{
     private RatingRepository ratingRepository;
 
     public RatingRoomDTO rateRoom(RatingRoomDTO ratingRoomDTO, Long roomId, Long userId) throws Exception {
-        Result result = getResult(roomId, userId);
-
-        boolean isRatedByUser  = isRatedByUser(roomId, result.user());
-        if (isRatedByUser ){
-            throw new Exception("You have already rated a room");
-        }
-
-        boolean isWasUserGuest = userService.isWasUserGuest(result.userReservations(), result.user());
-        if (!isWasUserGuest) {
-            throw new Exception("You haven't been a guest of this hotel.");
-        }
-
-        RatingRoom rating = RatingRoom.builder()
-                .id(ratingRoomDTO.id())
-                .ratingStars(new RatingStars(ratingRoomDTO.stars()))
-                .comment(ratingRoomDTO.comment())
-                .room(result.room())
-                .user(result.user())
-                .build();
-      
-        checkCorrectRate(RatingMapper.entityToDTO(rating));
-        result.room().getRatings().add(rating);
-        result.user().getRatings().add(rating);
-        return RatingMapper.entityToDTO(ratingRepository.save(rating));
-    }
-
-    public RatingRoomDTO updateRate(RatingRoomDTO ratingRoomDTO, Long roomId, Long userId, Long rateId) throws Exception {
-        Result result = getResult(roomId, userId);
-        deleteById(rateId);
-
-        boolean isRatedByUser  = isRatedByUser(roomId, result.user());
-        if (isRatedByUser ){
-            throw new Exception("You have already rated a room");
-        }
-
-        boolean isWasUserGuest = userService.isWasUserGuest(result.userReservations(), result.user());
-        if (!isWasUserGuest) {
-            throw new Exception("You haven't been a guest of this hotel.");
-        }
-        RatingRoom newRatingRoom = new RatingRoom();
-        newRatingRoom.setId(rateId);
-        newRatingRoom.setRatingStars(new RatingStars(ratingRoomDTO.stars()));
-        newRatingRoom.setComment(ratingRoomDTO.comment());
-        newRatingRoom.setRoom(result.room());
-        newRatingRoom.setUser(result.user());
-
-        return RatingMapper.entityToDTO(newRatingRoom);
-    }
-
-    private Result getResult(Long roomId, Long userId) {
         User user = userService.getUser(userId);
         Room room = roomService.getRoomById(roomId);
 
-        List<RatingRoom> userRatings = user.getRatings();
-        List<RatingRoom> roomRatings = room.getRatings();
-        List<Reservation> userReservations = user.getReservations();
-        Result result = new Result(user, room, userReservations);
-        return result;
+        validateRating(user,room);
+        RatingRoom ratingRoom = RatingRoom.builder()
+                .ratingStars(new RatingStars(ratingRoomDTO.stars()))
+                .ratingComment(new RatingComment(ratingRoomDTO.comment()))
+                .room(room)
+                .user(user)
+                .build();
+
+        room.getRatings().add(ratingRoom);
+        user.getRatings().add(ratingRoom);
+        return RatingMapper.entityToDTO(ratingRepository.save(ratingRoom));
     }
 
-    private record Result(User user, Room room, List<Reservation> userReservations) {
+    @Transactional
+    public RatingRoomDTO updateRate(RatingRoomDTO ratingRoomDTO, Long userId, Long rateId){
+        RatingRoom ratingRoomToUpdate = ratingRepository.findByIdAndUserId(rateId, userId)
+                .orElseThrow(() -> new NotFoundException("User " + userId + "hasn't got a rate with id" + rateId));
+
+        ratingRoomToUpdate.setRatingStars(new RatingStars(ratingRoomDTO.stars()));
+        ratingRoomToUpdate.setRatingComment(new RatingComment(ratingRoomDTO.comment()));
+        return RatingMapper.entityToDTO(ratingRoomToUpdate);
     }
+
+    public void validateRating(User user, Room room) throws Exception {
+        Long roomId = room.getId();
+        boolean isRatedByUser = isRatedByUser(roomId, user);
+        if (isRatedByUser){
+            throw new RuntimeException("It's already rated");
+        }
+        boolean isWasUserGuest = userService.isWasUserGuest(user.getReservations(), user);
+        if (!isWasUserGuest){
+            throw new RuntimeException("User wasn't a guest");
+        }
+    }
+
 
     public RatingRoomDTO findById(Long ratingId){
         RatingRoom ratingRoom = ratingRepository.findById(ratingId).orElseThrow();
