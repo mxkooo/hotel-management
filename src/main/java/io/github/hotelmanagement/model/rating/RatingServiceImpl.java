@@ -1,18 +1,13 @@
 package io.github.hotelmanagement.model.rating;
 
 import io.github.hotelmanagement.model.exception.NotFoundException;
-import io.github.hotelmanagement.model.reservation.Reservation;
-import io.github.hotelmanagement.model.room.RoomDTO;
-import io.github.hotelmanagement.model.room.RoomMapper;
+import io.github.hotelmanagement.model.room.Room;
+import io.github.hotelmanagement.model.room.RoomService;
+import io.github.hotelmanagement.model.user.User;
+import io.github.hotelmanagement.model.user.UserService;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import io.github.hotelmanagement.model.user.User;
-import io.github.hotelmanagement.model.room.Room;
-import io.github.hotelmanagement.model.user.UserService;
-import io.github.hotelmanagement.model.room.RoomService;
-
-import java.util.List;
 
 @Service
 @AllArgsConstructor

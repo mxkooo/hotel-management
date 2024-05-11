@@ -15,11 +15,7 @@ public class RatingComment {
 
     private String validate(String comment){
         if (comment.length() > 250){
-            try {
-                throw new Exception("Too much signs");
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+            throw new IllegalArgumentException("Too much signs");
         }
         return comment;
     }
