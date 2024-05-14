@@ -55,13 +55,12 @@ public class ReservationServiceImpl implements ReservationService {
         return ReservationMapper.entityToDTO(reservationRepository.save(reservation));
     }
     public ReservationDTO updateReservation(Long reservationId, ReservationRequest request, Long userId) {
-        Reservation reservation = reservationRepository.findById(reservationId)
-                .orElseThrow(() -> new NotFoundException("Reservation with given id " + reservationId + " does not exist"));
 
         cancelReservation(reservationId);
         User user = userService.getUser(userId);
 
         Room room = roomService.getAvailableRoom(request.startReservation(), request.endReservation(), request.bedAmount());
+        Reservation reservation = new Reservation();
         reservation.setId(reservation.getId());
         reservation.setStartReservation(request.startReservation());
         reservation.setEndReservation(request.endReservation());
