@@ -8,6 +8,6 @@ public interface ReservationService {
     public ReservationDTO createReservation(ReservationRequest request, Long userId);
     void cancelReservation(Long id);
 
-    ReservationDTO updateReservation(Long reservationId, ReservationRequest request, Long userId);
+    ReservationDTO deleteAndCreateNewReservation(Long reservationId, ReservationRequest request, Long userId);
 
 }

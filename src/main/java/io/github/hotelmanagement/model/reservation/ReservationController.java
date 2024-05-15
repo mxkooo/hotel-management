@@ -1,10 +1,8 @@
 package io.github.hotelmanagement.model.reservation;
 
 import lombok.AllArgsConstructor;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -35,7 +33,7 @@ public class ReservationController {
 
     @PutMapping(RoutesReservation.UPDATE + "/{reservationId}" + "/{userId}")
     public ReservationDTO updateReservation(@PathVariable Long reservationId, @RequestBody ReservationRequest request, @PathVariable Long userId) {
-        return reservationService.updateReservation(reservationId,request,userId);
+        return reservationService.deleteAndCreateNewReservation(reservationId,request,userId);
     }
 
 }
