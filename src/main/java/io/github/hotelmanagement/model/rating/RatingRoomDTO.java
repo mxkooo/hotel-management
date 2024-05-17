@@ -9,6 +9,7 @@ public record RatingRoomDTO(
         Long id,
         int stars,
         String comment,
+        int editRateCounter,
         RoomDTO roomDTO,
         UserDTO userDTO
 ) {
