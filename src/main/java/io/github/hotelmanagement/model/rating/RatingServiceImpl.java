@@ -15,9 +15,6 @@ public class RatingServiceImpl implements RatingService{
     private UserService userService;
     private RoomService roomService;
     private RatingRepository ratingRepository;
-    private int editRateCounter;
-    private int MAX_RATE_AMOUNT = 2;
-
     public RatingRoomDTO rateRoom(RatingRoomDTO ratingRoomDTO, Long roomId, Long userId) throws Exception {
         User user = userService.getUser(userId);
         Room room = roomService.getRoomById(roomId);
@@ -39,13 +36,8 @@ public class RatingServiceImpl implements RatingService{
     public RatingRoomDTO updateRate(RatingRoomDTO ratingRoomDTO, Long userId, Long rateId){
         RatingRoom ratingRoomToUpdate = ratingRepository.findByIdAndUserId(rateId, userId)
                 .orElseThrow(() -> new NotFoundException("User " + userId + "hasn't got a rate with id" + rateId));
-        if (editRateCounter<MAX_RATE_AMOUNT) {
-            ratingRoomToUpdate.setRatingStars(new RatingStars(ratingRoomDTO.stars()));
-            ratingRoomToUpdate.setRatingComment(new RatingComment(ratingRoomDTO.comment()));
-            editRateCounter++;
-        }else {
-            throw new RuntimeException("You have already rated room for 2 times");
-        }
+        ratingRoomToUpdate.setRatingStars(new RatingStars(ratingRoomDTO.stars()));
+        ratingRoomToUpdate.setRatingComment(new RatingComment(ratingRoomDTO.comment()));
         return RatingMapper.entityToDTO(ratingRoomToUpdate);
     }
 

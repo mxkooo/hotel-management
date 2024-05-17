@@ -22,6 +22,7 @@ public class RatingRoom {
     private Long id;
     private RatingStars ratingStars;
     private RatingComment ratingComment;
+    private RatingEditCounter ratingEditCounter;
     private String comment;
 
     @ManyToOne(fetch = FetchType.LAZY)
