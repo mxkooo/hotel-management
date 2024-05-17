@@ -60,16 +60,17 @@ public class ReservationServiceImpl implements ReservationService {
         User user = userService.getUser(userId);
 
         Room room = roomService.getAvailableRoom(request.startReservation(), request.endReservation(), request.bedAmount());
-        Reservation reservation = new Reservation();
-        reservation.setStartReservation(request.startReservation());
-        reservation.setEndReservation(request.endReservation());
-        reservation.setRoom(room);
-        reservation.setUser(user);
+        Reservation reservation = Reservation.builder()
+                .user(user)
+                .room(room)
+                .startReservation(request.startReservation())
+                .endReservation(request.endReservation())
+                .build();
 
         room.getReservations().add(reservation);
         user.getReservations().add(reservation);
 
-        return ReservationMapper.entityToDTO(reservation);
+        return ReservationMapper.entityToDTO(reservationRepository.save(reservation));
     }
 
     public void cancelReservation(Long reservationId){
