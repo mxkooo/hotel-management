@@ -54,6 +54,9 @@ public class ReservationServiceImpl implements ReservationService {
 
         return ReservationMapper.entityToDTO(reservationRepository.save(reservation));
     }
+    public ReservationDTO findById(Long reservationId){
+        Reservation reservation = reservationRepository.findById(reservationId).orElseThrow();
+
 
     @Transactional
     public ReservationDTO deleteAndCreateNewReservation(Long reservationId, ReservationRequest request, Long userId) {
@@ -65,7 +68,8 @@ public class ReservationServiceImpl implements ReservationService {
         return ReservationMapper.entityToDTO(reservationRepository.save(reservationToSave));
     }
 
-    public void cancelReservation(Long reservationId) {
+
+    public void cancelReservation(Long reservationId){
         Reservation reservation = reservationRepository.findById(reservationId)
                 .orElseThrow(() -> new NotFoundException("Reservation with given id " + reservationId + " does not exist"));
 

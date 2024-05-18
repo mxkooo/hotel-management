@@ -1,11 +1,11 @@
 package io.github.hotelmanagement.model.room;
 
+import io.github.hotelmanagement.model.rating.RatingStars;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import io.github.hotelmanagement.model.price.Price;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import io.github.hotelmanagement.model.reservation.Reservation;
 import io.github.hotelmanagement.model.exception.NotFoundException;
 import io.github.hotelmanagement.model.room.exception.GetAvailableRoomException;
@@ -19,6 +19,7 @@ import java.util.NoSuchElementException;
 class RoomServiceImpl implements RoomService {
 
     private final RoomRepository roomRepository;
+
     private static final Logger logger = LoggerFactory.getLogger(RoomServiceImpl.class);
 
     public RoomDTO createRoom(RoomDTO roomDTO) {
@@ -72,22 +73,18 @@ class RoomServiceImpl implements RoomService {
                                 reservation.getEndReservation().isBefore(endDate));
     }
 
-    public RoomDTO updateRoom(Long id, Room toUpdate) throws NotFoundException {
-        Room room;
-        try {
-            room = roomRepository.findById(id)
-                    .orElseThrow(ChangeSetPersister.NotFoundException::new);
-        } catch (ChangeSetPersister.NotFoundException e) {
-            throw new RuntimeException(e);
-        }
+    public RoomDTO updateRoom(Long roomId, RoomDTO toUpdate){
 
-        room.setId(toUpdate.getId());
+        if (!roomRepository.existsById(roomId)){
+            throw new NotFoundException("Room doesn't exist");
+        }
+        Room room = getRoomById(roomId);
+        room.setBedAmount(toUpdate.bedAmount());
+        room.setMaxPeopleInside(toUpdate.maxPeopleInside());
         room.setReserved(toUpdate.isReserved());
-        room.setReservations(toUpdate.getReservations());
-        room.setBedAmount(toUpdate.getBedAmount());
-        room.setPricePerNight(toUpdate.getPricePerNight());
-        room.setMaxPeopleInside(toUpdate.getMaxPeopleInside());
-        return RoomMapper.entityToDTO(roomRepository.save(room));
+        room.setPricePerNight(Price.countPrice(toUpdate.bedAmount()));
+
+        return RoomMapper.entityToDTO(room);
     }
 
     public Room getRoomById(Long roomId){
@@ -99,5 +96,25 @@ class RoomServiceImpl implements RoomService {
         }
         roomRepository.deleteById(roomId);
     }
+    public List<RoomDTO> getAllRooms(){
+        List<Room> rooms = roomRepository.findAll();
+        return rooms.stream()
+                .map(RoomMapper::entityToDTO)
+                .toList();
+    }
+    public RoomDTO findById(Long roomId){
+        Room room = roomRepository.findById(roomId).orElseThrow();
 
+        return RoomMapper.entityToDTO(room);
+    }
+
+    public RoomDTO getRoomByAverageStars(double minAverage){
+
+        Room roomInRange = roomRepository.findAll().stream()
+                .filter(room -> RatingStars.isInRangeStar(room.getRatings(),minAverage))
+                .findFirst()
+                .orElseThrow(() -> new NotFoundException("can not find room with average point: " + minAverage));
+
+        return RoomMapper.entityToDTO(roomInRange);
+    }
 }

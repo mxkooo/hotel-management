@@ -5,6 +5,7 @@ import io.github.hotelmanagement.model.reservation.ReservationDTO;
 import io.github.hotelmanagement.model.reservation.ReservationMapper;
 import io.github.hotelmanagement.model.reservation.ReservationService;
 import lombok.AllArgsConstructor;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import io.github.hotelmanagement.model.user.User;
 import io.github.hotelmanagement.model.room.Room;
@@ -52,6 +53,7 @@ public class RatingServiceImpl implements RatingService{
         userRatings.add(rating);
         return RatingMapper.entityToDTO(ratingRepository.save(rating));
     }
+
     boolean isRatedByUser(Long roomId, User user){
         return user.getRatings()
                 .stream()
