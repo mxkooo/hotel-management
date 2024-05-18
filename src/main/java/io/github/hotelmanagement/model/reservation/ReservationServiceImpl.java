@@ -6,7 +6,6 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import io.github.hotelmanagement.model.room.*;
 import io.github.hotelmanagement.model.user.*;
-import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -20,6 +19,7 @@ public class ReservationServiceImpl implements ReservationService {
     private final CancelReservationValidator cancelReservationValidator;
     private final RoomService roomService;
     private final UserService userService;
+
     @Override
     public List<ReservationDTO> getAllUserReservation(Long userId) {
         return reservationRepository.getReservationByUserId(userId)
@@ -29,16 +29,16 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Transactional
-    public ReservationDTO createReservation(ReservationRequest request, @NonNull Long userId){
+    public ReservationDTO createReservation(ReservationRequest request, Long userId) {
 
-        if (request.startReservation().isBefore(LocalDateTime.now()) || request.endReservation().isBefore(request.startReservation())){
+        if (request.startReservation().isBefore(LocalDateTime.now()) || request.endReservation().isBefore(request.startReservation())) {
             throw new IllegalArgumentException();
         }
 
         Room room = roomService.getAvailableRoom(
-            request.startReservation(),
-            request.endReservation(),
-            request.bedAmount());
+                request.startReservation(),
+                request.endReservation(),
+                request.bedAmount());
 
         User user = userService.getUser(userId);
 
@@ -57,8 +57,18 @@ public class ReservationServiceImpl implements ReservationService {
     public ReservationDTO findById(Long reservationId){
         Reservation reservation = reservationRepository.findById(reservationId).orElseThrow();
 
-        return ReservationMapper.entityToDTO(reservation);
+
+    @Transactional
+    public ReservationDTO deleteAndCreateNewReservation(Long reservationId, ReservationRequest request, Long userId) {
+
+        cancelReservation(reservationId);
+        ReservationDTO reservation = createReservation(request, userId);
+        Reservation reservationToSave = ReservationMapper.mapToEntity(reservation);
+
+        return ReservationMapper.entityToDTO(reservationRepository.save(reservationToSave));
     }
+
+
     public void cancelReservation(Long reservationId){
         Reservation reservation = reservationRepository.findById(reservationId)
                 .orElseThrow(() -> new NotFoundException("Reservation with given id " + reservationId + " does not exist"));
