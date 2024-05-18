@@ -9,4 +9,6 @@ public interface ReservationService {
     public ReservationDTO createReservation(ReservationRequest request, Long userId);
     void cancelReservation(Long id);
 
+    ReservationDTO deleteAndCreateNewReservation(Long reservationId, ReservationRequest request, Long userId);
+
 }
