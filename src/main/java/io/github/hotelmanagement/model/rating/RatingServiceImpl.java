@@ -34,10 +34,15 @@ public class RatingServiceImpl implements RatingService{
 
     @Transactional
     public RatingRoomDTO updateRate(RatingRoomDTO ratingRoomDTO, Long userId, Long rateId){
+        User user = userService.getUser(userId);
+        int userRatingEditAmount = user.getRatingEditAmount();
+        RatingEditCounter ratingEditCounter = new RatingEditCounter();
+        ratingEditCounter.validate(userRatingEditAmount);
         RatingRoom ratingRoomToUpdate = ratingRepository.findByIdAndUserId(rateId, userId)
                 .orElseThrow(() -> new NotFoundException("User " + userId + "hasn't got a rate with id" + rateId));
         ratingRoomToUpdate.setRatingStars(new RatingStars(ratingRoomDTO.stars()));
         ratingRoomToUpdate.setRatingComment(new RatingComment(ratingRoomDTO.comment()));
+        userRatingEditAmount++;
         return RatingMapper.entityToDTO(ratingRoomToUpdate);
     }
 

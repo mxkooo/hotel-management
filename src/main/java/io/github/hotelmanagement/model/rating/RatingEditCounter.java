@@ -15,7 +15,7 @@ public class RatingEditCounter {
         this.currentEditRateAmount = validate(currentEditRateAmount);
     }
 
-    private int validate(Integer currentEditRateAmount){
+    public int validate(Integer currentEditRateAmount){
         if (currentEditRateAmount > MAX_EDIT_RATE_AMOUNT){
             throw new IllegalArgumentException("You can rate only 2 times");
         }

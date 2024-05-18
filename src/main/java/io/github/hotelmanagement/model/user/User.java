@@ -23,6 +23,7 @@ public class User {
     private Long id;
     private String name;
     private String lastName;
+    private int ratingEditAmount;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Reservation> reservations = new ArrayList<>();
