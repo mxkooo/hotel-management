@@ -7,5 +7,4 @@ public interface RatingService {
     RatingRoomDTO updateRate(RatingRoomDTO ratingRoomDTO, Long rateId, Long userId) throws Exception;
     void deleteById(Long rateId) throws Exception;
     RatingRoomDTO findById(Long ratingId);
-
 }
