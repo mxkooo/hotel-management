@@ -36,14 +36,19 @@ public class RatingServiceImpl implements RatingService{
     public RatingRoomDTO updateRate(RatingRoomDTO ratingRoomDTO, Long userId, Long rateId){
         User user = userService.getUser(userId);
         int userRatingEditAmount = user.getRatingEditAmount();
-        RatingEditCounter ratingEditCounter = new RatingEditCounter();
-        ratingEditCounter.validate(userRatingEditAmount);
+        validateRatingUpdate(userRatingEditAmount);
         RatingRoom ratingRoomToUpdate = ratingRepository.findByIdAndUserId(rateId, userId)
                 .orElseThrow(() -> new NotFoundException("User " + userId + "hasn't got a rate with id" + rateId));
         ratingRoomToUpdate.setRatingStars(new RatingStars(ratingRoomDTO.stars()));
         ratingRoomToUpdate.setRatingComment(new RatingComment(ratingRoomDTO.comment()));
         userRatingEditAmount++;
         return RatingMapper.entityToDTO(ratingRoomToUpdate);
+    }
+    public void validateRatingUpdate(Integer userRatingEditAmount){
+        int MAX_RATE_EDIT_AMOUNT = 2;
+        if (userRatingEditAmount > MAX_RATE_EDIT_AMOUNT){
+            throw new IllegalArgumentException("You can edit your rating only " + MAX_RATE_EDIT_AMOUNT + "times");
+        }
     }
 
     public void validateRating(User user, Room room) throws Exception {

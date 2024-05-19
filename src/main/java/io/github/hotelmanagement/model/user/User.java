@@ -1,6 +1,5 @@
 package io.github.hotelmanagement.model.user;
 
-import io.github.hotelmanagement.model.rating.RatingEditCounter;
 import io.github.hotelmanagement.model.rating.RatingRoom;
 import io.github.hotelmanagement.model.reservation.Reservation;
 import jakarta.persistence.*;
@@ -30,7 +29,4 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<RatingRoom> ratings = new ArrayList<>();
-    
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<RatingEditCounter> ratingEditCounter = new ArrayList<>();
 }
