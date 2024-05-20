@@ -12,6 +12,7 @@ public record UserDTO(
         Long id,
         String name,
         String lastName,
+        int ratingEditAmount,
         List<ReservationDTO> reservationDTOS,
         List<RatingRoomDTO> ratingsDTOS
 ) {

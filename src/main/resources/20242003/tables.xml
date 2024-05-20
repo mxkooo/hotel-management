@@ -41,6 +41,7 @@
             </column>
             <column name="NAME" type="VARCHAR(250)"/>
             <column name="LAST_NAME" type="VARCHAR(250)"/>
+            <column name="RATING_EDIT_AMOUNT" type="INTEGER"/>
         </createTable>
     </changeSet>
 </databaseChangeLog>

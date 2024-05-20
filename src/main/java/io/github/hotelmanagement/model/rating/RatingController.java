@@ -18,4 +18,8 @@ public class RatingController {
     public void deleteRate(@PathVariable Long rateId) throws Exception{
         ratingService.deleteById(rateId);
     }
+    @PutMapping(RoutesRating.UPDATE + "/{roomId}" + "/{userId}" +"/{rateId}")
+    public RatingRoomDTO updateRate(@RequestBody RatingRoomDTO ratingRoomDTO,@PathVariable Long userId, @PathVariable Long rateId) throws Exception{
+        return ratingService.updateRate(ratingRoomDTO, userId, rateId);
+    }
 }

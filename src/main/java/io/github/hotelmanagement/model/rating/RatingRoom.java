@@ -11,6 +11,7 @@ import org.springframework.lang.NonNull;
 @Table(name = "RATING")
 @Entity
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,6 +21,8 @@ public class RatingRoom {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private RatingStars ratingStars;
+    private RatingComment ratingComment;
+    @Column(insertable=false, updatable=false)
     private String comment;
 
     @ManyToOne(fetch = FetchType.LAZY)
