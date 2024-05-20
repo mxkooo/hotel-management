@@ -41,13 +41,13 @@ public class RatingServiceImpl implements RatingService{
                 .orElseThrow(() -> new NotFoundException("User " + userId + "hasn't got a rate with id" + rateId));
         ratingRoomToUpdate.setRatingStars(new RatingStars(ratingRoomDTO.stars()));
         ratingRoomToUpdate.setRatingComment(new RatingComment(ratingRoomDTO.comment()));
-        userRatingEditAmount++;
+        user.setRatingEditAmount(userRatingEditAmount + 1);
         return RatingMapper.entityToDTO(ratingRoomToUpdate);
     }
     public void validateRatingUpdate(Integer userRatingEditAmount){
-        int MAX_RATE_EDIT_AMOUNT = 2;
-        if (userRatingEditAmount > MAX_RATE_EDIT_AMOUNT){
-            throw new IllegalArgumentException("You can edit your rating only " + MAX_RATE_EDIT_AMOUNT + "times");
+        int maxRateEditAmount = 2;
+        if (userRatingEditAmount > maxRateEditAmount){
+            throw new IllegalArgumentException("You can edit your rating only " + maxRateEditAmount + "times");
         }
     }
 
