@@ -1,19 +1,13 @@
 package io.github.hotelmanagement.model.rating;
 
-import io.github.hotelmanagement.model.reservation.Reservation;
-import io.github.hotelmanagement.model.reservation.ReservationDTO;
-import io.github.hotelmanagement.model.reservation.ReservationMapper;
-import io.github.hotelmanagement.model.reservation.ReservationService;
-import lombok.AllArgsConstructor;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.stereotype.Service;
-import io.github.hotelmanagement.model.user.User;
+import io.github.hotelmanagement.model.exception.NotFoundException;
 import io.github.hotelmanagement.model.room.Room;
-import io.github.hotelmanagement.model.user.UserService;
 import io.github.hotelmanagement.model.room.RoomService;
-
-import java.time.LocalDateTime;
-import java.util.List;
+import io.github.hotelmanagement.model.user.User;
+import io.github.hotelmanagement.model.user.UserService;
+import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
@@ -21,39 +15,59 @@ public class RatingServiceImpl implements RatingService{
     private UserService userService;
     private RoomService roomService;
     private RatingRepository ratingRepository;
-
     public RatingRoomDTO rateRoom(RatingRoomDTO ratingRoomDTO, Long roomId, Long userId) throws Exception {
         User user = userService.getUser(userId);
         Room room = roomService.getRoomById(roomId);
 
-        List<RatingRoom> userRatings = user.getRatings();
-        List<RatingRoom> roomRatings = room.getRatings();
-        List<Reservation> userReservations = user.getReservations();
-
-        boolean isRatedByUser  = isRatedByUser(roomId, user);
-        if (isRatedByUser ){
-            throw new Exception("You have already rated a room");
-        }
-
-        boolean isWasUserGuest = userService.isWasUserGuest(userReservations, user);
-        if (!isWasUserGuest) {
-            throw new Exception("You haven't been a guest of this hotel.");
-        }
-
-        RatingRoom rating = RatingRoom.builder()
-                .id(ratingRoomDTO.id())
+        validateRating(user,room);
+        RatingRoom ratingRoom = RatingRoom.builder()
                 .ratingStars(new RatingStars(ratingRoomDTO.stars()))
-                .comment(ratingRoomDTO.comment())
+                .ratingComment(new RatingComment(ratingRoomDTO.comment()))
                 .room(room)
                 .user(user)
                 .build();
-      
-        checkCorrectRate(RatingMapper.entityToDTO(rating));
-        roomRatings.add(rating);
-        userRatings.add(rating);
-        return RatingMapper.entityToDTO(ratingRepository.save(rating));
+
+        room.getRatings().add(ratingRoom);
+        user.getRatings().add(ratingRoom);
+        return RatingMapper.entityToDTO(ratingRepository.save(ratingRoom));
     }
 
+    @Transactional
+    public RatingRoomDTO updateRate(RatingRoomDTO ratingRoomDTO, Long userId, Long rateId){
+        User user = userService.getUser(userId);
+        int userRatingEditAmount = user.getRatingEditAmount();
+        validateRatingUpdate(userRatingEditAmount);
+        RatingRoom ratingRoomToUpdate = ratingRepository.findByIdAndUserId(rateId, userId)
+                .orElseThrow(() -> new NotFoundException("User " + userId + "hasn't got a rate with id" + rateId));
+        ratingRoomToUpdate.setRatingStars(new RatingStars(ratingRoomDTO.stars()));
+        ratingRoomToUpdate.setRatingComment(new RatingComment(ratingRoomDTO.comment()));
+        user.setRatingEditAmount(userRatingEditAmount + 1);
+        return RatingMapper.entityToDTO(ratingRoomToUpdate);
+    }
+    public void validateRatingUpdate(Integer userRatingEditAmount){
+        int maxRateEditAmount = 2;
+        if (userRatingEditAmount > maxRateEditAmount){
+            throw new IllegalArgumentException("You can edit your rating only " + maxRateEditAmount + "times");
+        }
+    }
+
+    public void validateRating(User user, Room room) throws Exception {
+        Long roomId = room.getId();
+        boolean isRatedByUser = isRatedByUser(roomId, user);
+        if (isRatedByUser){
+            throw new RuntimeException("It's already rated");
+        }
+        boolean isWasUserGuest = userService.isWasUserGuest(user.getReservations(), user);
+        if (!isWasUserGuest){
+            throw new RuntimeException("User wasn't a guest");
+        }
+    }
+
+
+    public RatingRoomDTO findById(Long ratingId){
+        RatingRoom ratingRoom = ratingRepository.findById(ratingId).orElseThrow();
+        return RatingMapper.entityToDTO(ratingRoom);
+    }
     boolean isRatedByUser(Long roomId, User user){
         return user.getRatings()
                 .stream()
@@ -66,10 +80,10 @@ public class RatingServiceImpl implements RatingService{
         }
     }
 
-    public void deleteById(Long roomId) throws Exception{
-        if (!ratingRepository.existsById(roomId)){
-            throw new Exception("Room doesn't exist");
+    public void deleteById(Long rateId) throws Exception{
+        if (!ratingRepository.existsById(rateId)){
+            throw new Exception("Rate doesn't exist");
         }
-        ratingRepository.deleteById(roomId);
+        ratingRepository.deleteById(rateId);
     }
 }
