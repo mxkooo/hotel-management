@@ -54,9 +54,10 @@ public class ReservationServiceImpl implements ReservationService {
 
         return ReservationMapper.entityToDTO(reservationRepository.save(reservation));
     }
-    public ReservationDTO findById(Long reservationId){
+    public ReservationDTO findById(Long reservationId) {
         Reservation reservation = reservationRepository.findById(reservationId).orElseThrow();
-
+        return ReservationMapper.entityToDTO(reservation);
+    }
 
     @Transactional
     public ReservationDTO deleteAndCreateNewReservation(Long reservationId, ReservationRequest request, Long userId) {
